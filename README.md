@@ -1,7 +1,7 @@
 # Cubbit training repository 
 
 Hi ${name}, and welcome to the **Cubbit** training repository.
-https://pics.me.me/well-hello-there-memes-com-17816302.png
+![Hello there!](https://pics.me.me/well-hello-there-memes-com-17816302.png)
 Here you will find all the guides and exercises to master our technologies and to become a true **Javascript ninja**. In the next sections, the main concepts of git and javascript will be generally explained so you can start to explore the repository and its contents independently.
 
 ## Table of contents 
@@ -11,11 +11,11 @@ Here you will find all the guides and exercises to master our technologies and t
 Cubbit software leverages on a *Javascript Full Stack environment*. However, to get started with Javascript you will need first a proper text editor. Here are a bunch of them, choose wisely:
 
 - **[Atom](https://atom.io)**: it is a text editor that's modern, approachable, yet hackable to the core—a tool you can customize to do anything but also use productively without ever touching a config file.
-http://github-atom-io-herokuapp-com.global.ssl.fastly.net/assets/screenshot-main-04d5696e786a54803aa385acbc7c9ba3.png
+![Atom](http://github-atom-io-herokuapp-com.global.ssl.fastly.net/assets/screenshot-main-04d5696e786a54803aa385acbc7c9ba3.png)
 - **[Visual Studio Code](https://code.visualstudio.com)**: another full customizable modern editor powered by Electron. It embeds a terminal which can be useful (in Atom the terminal is a optional plugin)
-https://code.visualstudio.com/home/home-screenshot-mac.png
+![VSC](https://code.visualstudio.com/home/home-screenshot-mac.png)
 - **[Webstorm](https://www.jetbrains.com/webstorm/)**: Now this is more powerful! Webstorm is a complex and complete IDE for developing web application. It is a premium editor but if you have a student email such as `*@studio.unibo.it` it will be free for complete year. In webstorm you can run tests in an integrated UI, crate automated task, run commands in terminal, configure deployments and format the code automatically.
-https://www.jetbrains.com/webstorm/img/screenshots/webstorm-main.png
+![Webstorm](https://www.jetbrains.com/webstorm/img/screenshots/webstorm-main.png)
 All of them support Typescript, Node.js and all the tools we use in our company. So choose the one you like the most.
 Once you have installed your favorite editor you are ready to jump to the environment setup. **Get ready**!
 
@@ -113,6 +113,8 @@ Even if **a strong knowledge of the terminal's commands is fundamental to master
 - [GitKraken](https://www.gitkraken.com): written with Electron. The free version is quite enjoyable.
 - [Github Desktop](https://desktop.github.com): it is widely used in the open source community.
 
+![Soucetree](https://www.sourcetreeapp.com/dam/jcr:580c367b-c240-453d-aa18-c7ced44324f9/hero-mac-screenshot.png?cdnVersion=ht)
+
 Select the one which suits you most and procede to the next section.
 
 ### Git flow
@@ -136,7 +138,7 @@ To play a level just **follow these steps**:
 
 ## A little extra
 If you like to customize your terminal and your prompts take a look to [zsh](http://www.zsh.org). In combination with [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) you can achieve results such as this to have the current node.js version always visible on the left:
-https://cloud.githubusercontent.com/assets/5038030/15469159/0fc514f4-20f1-11e6-9145-a6b8f8b1bebe.png
+![ZSH](https://cloud.githubusercontent.com/assets/5038030/15469159/0fc514f4-20f1-11e6-9145-a6b8f8b1bebe.png)
 [Here](https://github.com/bhilburn/powerlevel9k/wiki/Show-Off-Your-Config) you can find additional themes and templates. Happy  tweaking!
 
 ## Info and help
