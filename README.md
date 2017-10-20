@@ -1,8 +1,9 @@
 # Cubbit training repository 
 
-Hi ${name}, and welcome to the **Cubbit** training repository.
-![Hello there!](https://pics.me.me/well-hello-there-memes-com-17816302.png)
+Hi **${name}**, and welcome to the **Cubbit** training repository.
 Here you will find all the guides and exercises to master our technologies and to become a true **Javascript ninja**. In the next sections, the main concepts of git and javascript will be generally explained so you can start to explore the repository and its contents independently.
+
+![Hello there!](https://pics.me.me/well-hello-there-memes-com-17816302.png)
 
 ## Table of contents 
 // TODO: Add a table of contents here.
