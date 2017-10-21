@@ -26,8 +26,6 @@ and must return alternatively:
 
 Try out your brand new application launching again `npm test`. When both the tests will pass correctly please make a pull request to get your code reviewed. 
 
-// image
-
 For more info about pull request please refer to [this guide](https://help.github.com/articles/about-pull-requests/).
 
 
