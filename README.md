@@ -125,7 +125,7 @@ To do so it introduces some commands to best handle this situations. The command
 ## Structure of this repository
 This repository will be structured as a multilevel game. Each branch will represent a level. The first level will assume zero knowledge of the environment and will start from ground level. **Since you pass each level the complexity of the exercises will increase**. These are the current available levels (they will be updated during time):
 
-- [Level 1 - Hello world](#)
+- [Level 0 - Hello world](https://github.com/cubbit/interns-training/tree/level0-hello)
 
 To play a level just **follow these steps**:
 
