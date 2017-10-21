@@ -1,4 +1,4 @@
-# Cubbit training repository 
+# Cubbit training repository - Level 1
 
 Hi **${name}**, and welcome to the **Cubbit** training repository's level 1.
 
