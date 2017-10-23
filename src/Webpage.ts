@@ -7,7 +7,7 @@ export class Webpage
      * Retrieve a webpage and save the content to a file.
      * @param url The webpage to get.
      * @param path The path to save the retrieved page.
-     * @throws <i>Error<i> if something went wrong getting teh webpage.
+     * @throws <i>Error</i> if something went wrong getting teh webpage.
      
      */
     public saveWebpage(url, path): Promise<string>
