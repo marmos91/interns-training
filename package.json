@@ -1,0 +1,36 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "Cubbit interns training - io level",
+  "main": "build/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node build/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubbit/interns-training.git"
+  },
+  "keywords": [
+    "cubbit",
+    "interns",
+    "training"
+  ],
+  "author": "Marco Moschettini <marco.moschettini@cubbit.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cubbit/interns-training/issues"
+  },
+  "homepage": "https://github.com/cubbit/interns-training#readme",
+  "dependencies": {
+    "@types/node": "^8.0.46"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "@types/sinon": "^2.3.6",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "sinon": "^4.0.1"
+  }
+}
