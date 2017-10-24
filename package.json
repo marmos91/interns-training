@@ -1,0 +1,26 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "il livello idioti",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dwalinx/interns-training.git"
+  },
+  "author": "matteo mendula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dwalinx/interns-training/issues"
+  },
+  "homepage": "https://github.com/dwalinx/interns-training#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
+}
