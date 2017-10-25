@@ -130,13 +130,38 @@ This repository will be structured as a multilevel game. Each branch will repres
 
 To play a level just **follow these steps**:
 
-1. Fork this repository
-2. Clone it on your computer (`git clone <url>`)
+1. Fork this repository (see next section)
+2. Clone it on your computer (`git clone <url>`) (see next section)
+3. *(Follow the steps in the next section)*
 2. Checkout the branch corresponding to the level you want to play (hint: `git checkout <branch>`) 
 3. Install the dependencies (`npm install` or `yarn`). Note: all the dependencies needed to solve the challenge will be already included in the `package.json` file. Try to solve the challenge without installing additional libraries.
 4. Solve the challenge (the challenge targets will be explained in detail inside the `README.md` file)
 5. Push the solution to your forked repository. You can do as many commits and branches as you need to solve the channel.
 6. Make a pull request back to this repository to get your solution  validated by our staff.
+
+## A little note about cloning your fork
+After you have forked this repository from GitHub, **follow the following steps** to **continue following the changes** on the main repository (this one):
+
+1. **Clone your fork**:
+
+```bash
+git clone git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git
+```
+
+2. **Add remote** from original repository in your forked repository: 
+
+```bash
+cd into/cloned/fork-repo
+git remote add upstream git://github.com/ORIGINAL-DEV-
+USERNAME/REPO-YOU-FORKED-FROM.git
+git fetch upstream
+```
+
+3. Updating your fork from original repo to keep up with their changes:
+
+```bash
+git pull upstream master
+```
 
 ## A little extra
 If you like to customize your terminal and your prompts take a look to [zsh](http://www.zsh.org). In combination with [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) you can achieve results such as this to have the current node.js version always visible on the left:
