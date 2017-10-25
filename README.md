@@ -81,13 +81,13 @@ let client3 = new Client(3, 'username3');
 
 server.listen((port: number) => 
 {
-	client1.connect().then((address1) => client2.connect()).then((address2) => client3.connect()).then((address3) => 
-	{
-		client1.send('Hello', 2).then(() => 
-		{
-			client2.broadcast('Oh. Hi there!');
-		});
-	});
+   client1.connect().then((address1) => client2.connect()).then((address2) => client3.connect()).then((address3) => 
+   {
+      client1.send('Hello', 2).then(() => 
+      {
+         client2.broadcast('Oh. Hi there!');
+      });
+   });
 });
 ```
 
