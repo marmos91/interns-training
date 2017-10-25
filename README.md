@@ -34,7 +34,7 @@ When a **LEAVE** message is received, it should **remove the corresponding clien
 
 Example of usage of the server class:
 
-```javascript
+```typescript
 import Server from './Server';
 
 let server = new Server();
@@ -54,7 +54,7 @@ The client is a single instance of our chat service, client-side. It must implem
 
 The constructor accepts 2 arguments: **id** and **username**.
 
-```
+```typescript
 let client = new Client(1, 'my-username');
 ```
 
@@ -70,7 +70,7 @@ The client must also print all the message it receives from server in order to s
 
 An example of the library could be:
 
-```
+```typescript
 import {Client, Server} from 'lib';
 
 let server = new Server();
