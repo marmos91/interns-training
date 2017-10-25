@@ -2,6 +2,11 @@
 
 Hi **${name}**, and welcome to the **Cubbit** training repository's level 4 (**last level**).
 
+# Setting up the project
+As usual:
+- `npm install` or `yarn`
+- `npm start` to start electron (it will fail until you implement the exercise correctly)
+
 # Goals of the level
 This **final level** of the training repository will introduce **[Electron](https://electron.atom.io)** and how it can be used to implement a cross-platform desktop application in Node.js, HTML5 and CSS3.
 
