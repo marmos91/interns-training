@@ -5,8 +5,23 @@ Here you will find all the guides and exercises to master our technologies and t
 
 ![Hello there!](https://pics.me.me/well-hello-there-memes-com-17816302.png)
 
-## Table of contents 
-// TODO: Add a table of contents here.
+## Table of contents
+
+   * [Cubbit training repository](#cubbit-training-repository)
+      * [Table of contents](#table-of-contents)
+      * [Tools](#tools)
+      * [Environment setup](#environment-setup)
+         * [Setup Node.js](#setup-nodejs)
+            * [NVM usage](#nvm-usage)
+      * [Meet Node.js](#meet-nodejs)
+      * [The Node Package Manager vs Yarn](#the-node-package-manager-vs-yarn)
+      * [Setup Typescript](#setup-typescript)
+      * [Git](#git)
+         * [Git flow](#git-flow)
+      * [Structure of this repository](#structure-of-this-repository)
+      * [A little note about cloning your fork](#a-little-note-about-cloning-your-fork)
+      * [A little extra](#a-little-extra)
+      * [Info and help](#info-and-help)
 
 ## Tools
 Cubbit software leverages on a *Javascript Full Stack environment*. However, to get started with Javascript you will need first a proper text editor. Here are a bunch of them, choose wisely:
@@ -123,10 +138,13 @@ Git flow is an extension of git which allows to simplify the most common task in
 To do so it introduces some commands to best handle this situations. The commands are well explained in this **[guide](https://danielkummer.github.io/git-flow-cheatsheet/)**. Note that Sourcetree already ships with a basic version of *git flow* which can be enabled from the preferences pane. However, to use it from terminal you have to [install it](https://github.com/nvie/gitflow/wiki/Installation).
 
 ## Structure of this repository
-This repository will be structured as a multilevel game. Each branch will represent a level. The first level will assume zero knowledge of the environment and will start from ground level. **Since you pass each level the complexity of the exercises will increase**. These are the current available levels (they will be updated during time):
+This repository will be structured as a multilevel game. Each branch will represent a level. The first level will assume zero knowledge of the environment and will start from ground level. **Since you pass each level the complexity of the exercises will increase**. These are the current available levels (*they will be updated during time*):
 
 - [Level 0 - Hello world](https://github.com/cubbit/interns-training/tree/level0-hello)
 - [Level 1 - Hello Typescript](https://github.com/cubbit/interns-training/tree/level1-tsc)
+- [Level 2 - Unit](https://github.com/cubbit/interns-training/tree/level2-unit)
+- [Level 3 - IO](https://github.com/cubbit/interns-training/tree/level3-io)
+- [Level 4 - Electron](https://github.com/cubbit/interns-training/tree/level4-electron)
 
 To play a level just **follow these steps**:
 
