@@ -20,7 +20,7 @@ Now it's time to write some **useful** tests.
 
 [`sinon`](http://sinonjs.org/) will be your best friend. *How could be useful*? Refer to [this guide](https://semaphoreci.com/community/tutorials/best-practices-for-spies-stubs-and-mocks-in-sinon-js).
 
-[`supertest`](https://github.com/visionmedia/supertest) an high level abstraction for testing HTTP.
+[`mock-http-server`](https://github.com/spreaker/node-mock-http-server) allow to create mockable HTTP/HTTPS servers \{credits to Daniele}
 
 ### Code to test
 The code to test is located in the `src` folder.  
