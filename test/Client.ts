@@ -38,7 +38,6 @@ describe('Client', () =>
         {
             if (error)
                 console.error(error);
-
             expect(error).to.be.undefined;
 
             server.shutdown(done);
@@ -50,7 +49,7 @@ describe('Client', () =>
         let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
 
         client.connect({ip: 'api.server.net', port: 8888}).then((connected_server: Address) =>
-        {
+        {          
             expect(dgram_stub.calledWith(sinon.match.any, sinon.match.any, sinon.match.any, 8888, 'api.server.net')).to.be.true;
             expect(connected_server).to.be.deep.equal({ip: 'api.server.net', port: 8888});
         }).then(() => server.shutdown(done)).catch((error) =>
