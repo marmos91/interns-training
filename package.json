@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.43",
-    "@types/sinon": "^2.3.6",
+    "@types/sinon": "^2.3.7",
     "@types/supertest": "^2.0.3",
     "chai": "^4.1.2",
     "gulp": "^3.9.1",
@@ -37,7 +37,8 @@
     "gulp-shell": "^0.6.3",
     "gulpclass": "^0.1.2",
     "mocha": "^4.0.1",
-    "sinon": "^4.0.1",
+    "mock-http-server": "^0.2.0",
+    "sinon": "^4.0.2",
     "supertest": "^3.0.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.3"
