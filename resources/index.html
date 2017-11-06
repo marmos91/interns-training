@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Level4 - Electron</title>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+    <h1>Welcome to the file transfer</h1>
+    <div id="container">
+        <label for="input_host">Host</label>
+        <input type="text" name="host" id="input_host"/><br/>
+        <label for="input_port">Port</label>
+        <input type="number" name="port" id="input_port"/><br/>
+        <input type="file" name="file" accept="*" id="input_file"/><br/>
+        <button onclick="send()" id="button_send">SEND</button>
+        <div id="listening_port">Server listening on: </div>
+        <div id="status">Ready.</div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+
+</html>
