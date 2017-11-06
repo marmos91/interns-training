@@ -1,0 +1,36 @@
+body {
+    text-align: center;
+    background-color: yellow; 
+}
+
+input, label {
+    margin: 7px;
+}
+
+h1 {
+    font-family: sans-serif;
+    font-size: 25px;
+}
+
+button {
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgb(104, 163, 250);
+    transition: 0.3s;
+}
+
+button:hover {
+    color: white;
+}
+
+#container {
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#listening_port, #status {
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    margin: 10px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
