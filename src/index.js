@@ -1,7 +1,6 @@
-exports.say = function (name) {
-    if(name!=null){
-        return('Hello '+name+'!');
-    }
-    console.log('Hello world!');
-    return('Hello world!');
+exports.say = function (name)
+{
+    if (name)
+        return `Hello world!`;
+    return `Hello ${name}!`
 }
