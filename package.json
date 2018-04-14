@@ -1,0 +1,22 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "level0-hello world",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jes-alpha/interns-training.git"
+  },
+  "author": "Jessica Bianco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jes-alpha/interns-training/issues"
+  },
+  "homepage": "https://github.com/jes-alpha/interns-training#readme"
+}
