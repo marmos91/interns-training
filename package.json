@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && mocha build/test/index.js"
+    "test": "npm run build && mocha test/index.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
+    "@types/chai": "^4.1.2",
     "@types/node": "^8.0.46"
   }
 }
