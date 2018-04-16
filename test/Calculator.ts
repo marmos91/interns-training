@@ -2,12 +2,14 @@ import {Calculator} from '../src/Calculator'
 import {Operation} from '../src/Calculator';
 import {expect} from 'chai';
 
-describe('Level 2.1 - Calculator Test', ()=>{
+describe('Level 2.1 - Calculator Test', () =>
+{
     let calculator : Calculator;
 
     beforeEach(() => calculator = new Calculator());
 
-    it('should return the result of the sum ',async () => {
+    it('should return the result of the sum ', async () =>
+    {
         calculator.input(3);
         calculator.operation(Operation.ADD);
         calculator.input(5);
@@ -45,7 +47,4 @@ describe('Level 2.1 - Calculator Test', ()=>{
         calculator.operation(Operation.DIV);
         expect(() => calculator.operation(Operation.MUL)).throw();
     });
-
-
-
 });
