@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && mocha test/index.js"
+    "test": "npm run build && mocha build/test/index.js"
   },
   "repository": {
     "type": "git",
