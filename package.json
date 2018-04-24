@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node build/src/index.js",
-	"test" : "npm run build && mocha build/test/*.js"
+	  "test" : "npm run build && mocha build/test/*.js"
   },
   "repository": {
     "type": "git",

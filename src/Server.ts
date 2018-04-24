@@ -36,7 +36,7 @@ export default class Server
 
         this._socket.on("message", (msg, rinfo) =>
         {
-            this._onMessage(msg, rinfo);
+            this._on_message(msg, rinfo);
         });
 
         this._socket.on("listening", () =>
@@ -86,10 +86,9 @@ export default class Server
 
         if (callback)
             callback();
-
     }
     
-    private _onMessage(msg: any, rinfo: any)
+    private _on_message(msg: any, rinfo: any)
     {
         let imessage: interfaces.IMessage;
         imessage = JSON.parse(msg);

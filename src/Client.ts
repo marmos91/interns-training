@@ -115,9 +115,7 @@ export default class Client
                 {
                     if (err)
                         return reject(err);
-                    if (!err)
-                        return resolve();
-
+                    return resolve();
                 });
             }
             catch (error)
@@ -148,8 +146,7 @@ export default class Client
             {
                 if (err)
                     return reject(new Error(err.message));
-                if (!err)
-                    return resolve();
+                return resolve();
             });
         });
     }
