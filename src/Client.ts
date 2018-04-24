@@ -1,6 +1,9 @@
 import * as interfaces from "./Interfaces";
 import * as dgram from 'dgram';
 
+/**
+ * default ip, port settings
+ */
 const defaultServer: interfaces.Address = {
     ip: "localhost",
     port: 8000
@@ -14,7 +17,11 @@ export default class Client
     private _username: string;
     private _socket: dgram.Socket;
     private _server: interfaces.Address;
-
+    /**
+     * 
+     * @param id the client's id
+     * @param username the client's username
+     */
     public constructor(id: number, username: string)
     {
         this._id = id;
@@ -22,7 +29,10 @@ export default class Client
         this._socket = dgram.createSocket('udp4');
         this._server = defaultServer;
     }
-
+    /**
+     * @param server the server[ip, port] to use, optional
+     * if omitted default ip, port will be used
+     */
     public connect(server?: interfaces.Address): Promise<interfaces.Address>
     {
         if (server)
@@ -47,54 +57,22 @@ export default class Client
 
                 this._send(imessage, (error, bytes) => 
                 {
-                    if(error)
+                    if (error)
                         return reject(error);
 
                     return resolve(this._server);
                 });
             });
-            
-            //TODO factorize code
-            // if (!server)
-            // {
-            //     let address: interfaces.Address = {
-            //         ip: "localhost",
-            //         port: 8000
-            //     }
-            //     const  msg:string =JSON.stringify(imessage);
-            //     this._server = address;
-            //     this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, (err) =>
-            //     {
-            //         if (err)
-            //             return reject(new Error("send error 1"));
-            //         if (!err)
-            //             return resolve(this._server);
-            //     });
-
-            // }
-           
-        });//promise
+        });
     }
 
-    private _send(request: interfaces.IMessage, callback: (error: Error, bytes: number) => void)
-    {
-        try
-        {
-            const msg: string = JSON.stringify(request);
-            this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, callback);
-        }
-        catch(error)
-        {
-            console.error(error);
-        }
-    }
-
-
+    /**
+     * disconnects client from server and opens a new socket
+     */
     public disconnect(): Promise<any>
     {
         return new Promise((resolve, reject) => 
         {
-
             const imessage: interfaces.IMessage = {
                 type: interfaces.MessageType.LEAVE,
                 source: {
@@ -107,17 +85,16 @@ export default class Client
             {
                 this._socket.close();
                 this._socket = dgram.createSocket('udp4');
-            
+
                 return resolve();
             });
-            
-            // if (!this._socket)
-            //     return reject(new Error("Error in disconnect()"));
-            // else
-            // return resolve();
         });
     }
-
+    /**
+     * sends message to a specific client
+     * @param message payload of the message to send
+     * @param to the id of the client to send the message to
+     */
     public send(message: string, to: number): Promise<any>
     {
         return new Promise((resolve, reject) =>
@@ -131,18 +108,28 @@ export default class Client
                 destination: to,
                 payload: message
             }
-            const msg: string = JSON.stringify(imessage);
-            this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, (err) =>
+            try
             {
-                if (err)
-                    return reject(new Error("send error 4"));
-                if (!err)
-                    return resolve();
+                const msg: string = JSON.stringify(imessage);
+                this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, (err) =>
+                {
+                    if (err)
+                        return reject(err);
+                    if (!err)
+                        return resolve();
 
-            });
+                });
+            }
+            catch (error)
+            {
+                throw new Error(error);
+            }
         });
     }
-
+    /**
+     * sends message to all the clients connected to the server
+     * @param message the payload of the message to send
+     */
     broadcast(message: string): Promise<any>
     {
         return new Promise((resolve, reject) =>
@@ -155,19 +142,34 @@ export default class Client
                 },
                 payload: message
             }
+
             const msg: string = JSON.stringify(imessage);
             this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, (err) =>
             {
                 if (err)
-                    return reject(new Error("send error 5"));
+                    return reject(new Error(err.message));
                 if (!err)
                     return resolve();
             });
         });
     }
+
+    /**
+ * private method used to send messages to server
+ * @param request the message to send
+ * @param callback 
+ */
+    private _send(request: interfaces.IMessage, callback: (error: Error, bytes: number) => void)
+    {
+        try
+        {
+            const msg: string = JSON.stringify(request);
+            this._socket.send(msg, 0, msg.length, this._server.port, this._server.ip, callback);
+        }
+        catch (error)
+        {
+            throw new Error(error);
+        }
+    }
+
 }
-
-//TODO method send privata...poi tutti chiamano quella per inviare, fa la json... lei
-
-
-//default fuori

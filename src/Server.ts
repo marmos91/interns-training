@@ -1,6 +1,8 @@
 import * as interfaces from "./Interfaces";
 import * as dgram from 'dgram';
 
+const defaultPort: number = 8000;
+
 /**
  * Server class
  */
@@ -34,7 +36,7 @@ export default class Server
 
         this._socket.on("message", (msg, rinfo) =>
         {
-            this.onMessage(msg, rinfo);
+            this._onMessage(msg, rinfo);
         });
 
         this._socket.on("listening", () =>
@@ -47,21 +49,11 @@ export default class Server
         this._socket.on("close", () =>
         {
             console.log(' Stopping ...');
-            //this.shutdown();
         });
 
-        //TODO da fare meglio i vari if, e fare una sola bind alla fine
-        /*
-        niente
-        num(port)
-        num, func
-        func, niente
-        func, func   <=====  errore
-    
-        */
         if (!port && !callback)
         {
-            this._socket.bind(8000);
+            this._socket.bind(defaultPort);
         }
         else if (port && (typeof (port) === 'number') && !callback)
         {
@@ -69,9 +61,8 @@ export default class Server
         }
         else if (port && typeof (port) === 'function')
         {
-            this._socket.bind(8000);
-            port(8000);
-
+            this._socket.bind(defaultPort);
+            port(defaultPort);
         }
         else if (port && (typeof (port) === 'number') && callback && typeof (callback) === 'function')
         {
@@ -97,10 +88,8 @@ export default class Server
             callback();
 
     }
-
-    //this._socket.on("message", (msg, rinfo) =>{
-
-    onMessage = (msg: any, rinfo: any) =>
+    
+    private _onMessage(msg: any, rinfo: any)
     {
         let imessage: interfaces.IMessage;
         imessage = JSON.parse(msg);
@@ -116,17 +105,8 @@ export default class Server
         switch (imessage.type)
         {
             case interfaces.MessageType.REGISTRATION:
-                //if this._clients non ha gia quella chiave aggiungi
-                // for (const key in this._clients)  
-                // {
-                //     console.log("this._clients[key].id " + this._clients[key].id);
-                //     console.log("imessage.source.id"+ imessage.source.id);
-                //     if (this._clients[key].id === imessage.source.id)
-                //     {
-                //        // throw new Error("Error: id already exists");
-                //     }
-                // }
-               this._clients[imessage.source.id] = iclient;
+                if (!this._clients[imessage.source.id])
+                    this._clients[imessage.source.id] = iclient;
                 break;
 
             case interfaces.MessageType.MESSAGE:
@@ -135,7 +115,7 @@ export default class Server
                     this._socket.send(imessage.payload, this._clients[imessage.destination].address.port, this._clients[imessage.destination].address.ip, (err) =>
                     {
                         if (err)
-                            throw new Error("send error");
+                            throw new Error(err.message);
                     });
                 }
                 break;
@@ -143,8 +123,8 @@ export default class Server
             case interfaces.MessageType.LEAVE:
                 if (this._clients[imessage.source.id])
                     delete this._clients[imessage.source.id];
-                
                 break;
+
             case interfaces.MessageType.BROADCAST:
                 for (const key in this._clients)
                 {
@@ -166,14 +146,3 @@ export default class Server
     }
 
 }
-
-
-// let s = new Server();
-// // s.listen();
-// console.log("finito");
-//s.listen(3000, (port) => console.log(port));
-
-
-//TODO
-//const default
-//try catch nei parse
