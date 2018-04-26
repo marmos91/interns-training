@@ -1,9 +1,66 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <meta charset="utf-8">
+    <title>Hello Electron!!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css"/>
+    <link rel="stylesheet" href="hello.css">
 </head>
 <body>
-<h1>Hello World!</h1>
+    <section class="hero is-warning is-fullheight is-medium">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Welcome to Electron</h1>
+                <h2 class="subtitle">Fill the form below to transfer a file</h2>
+                <div class="columns">
+                    <div class="column">
+                            <form id="input1">
+                                    <input class="input Ip" type="text" placeholder="Ip address">
+                                </form>
+                    </div>
+                    <div class="column">
+                        <form id="input2">
+                            <input class="input port" type="text" placeholder="Port">
+                        </form>
+                    </div>
+                    <div class="column">
+                        <form id="bottone">
+                            <a class="button is-small">Choose a file</a>
+                        </form>
+                    </div>
+                    </div>
+                <div class="container is-info"> <form id="send">
+                        <a class="button is-small is-info">Send</a>
+                    </form></div>
+                <p>The server is listening on port </p>
+            </div>
+        </div>
+
+    <div class="container">
+            <form id="output">
+                <a class="messaggio"></a>
+            </form>
+        </div>
+        <script>
+            document.querySelector('#send').addEventListener("click",bottoneCliccato);
+            function bottoneCliccato(){
+                let ip=document.querySelector('.Ip').value;
+                let port=document.querySelector('.port').value;
+                if(ip && port)
+                document.querySelector('#output').innerHTML = `
+              <article class="message is-info">
+              <div class="message-body">Invio a indirizzo ip e porta specificato </div>
+              </article>
+            `;
+            else
+                document.querySelector('#output').innerHTML = `
+              <article class="message is-info">
+              <div class="message-body">Seleziona una porta e un ip address</div>
+              </article>
+            `;
+            }
+        </script>
+    </section>
 </body>
 </html>
