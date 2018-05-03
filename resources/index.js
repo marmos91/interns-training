@@ -1,15 +1,15 @@
 const electron = require('electron');
 const {ipcRenderer} = electron;
-let p = getRandom(0, 65536);
+let p = getrandom(0, 65536);
 ipcRenderer.send('async-port',p);
-document.querySelector('#send').addEventListener("click", bottoneCliccato);
+document.querySelector('#send').addEventListener("click", clickedbotton);
 document.querySelector('#porta').innerHTML = `<p>Server is listening on port ${p}</p>`;
 
 /**
  * this function collect the value of ip,port and file and sends them to the main
  * process when the button is clicked
  */
-function bottoneCliccato()
+function clickedbotton()
 {
     let file = document.querySelector('#inputId').files[0].path;
     let ip = document.querySelector('.Ip').value;
@@ -33,7 +33,7 @@ function bottoneCliccato()
  * @param {*} min 
  * @param {*} max 
  */
-function getRandom(min, max)
+function getrandom(min, max)
 {
     min = Math.ceil(min);
     max = Math.floor(max);

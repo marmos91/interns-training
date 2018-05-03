@@ -1,45 +1,43 @@
 import * as net from 'net';
-const fs = require('fs');
-const electron = require('electron');
-const path = require('path');
-const url = require('url');
-
+import * as fs from 'fs';
+import * as electron from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 
 export class App
 {
-
     public listen()
     {
         let num: number = 0;
         let path: string = './Downloads';
-        var exist = this.statPath(path);
+        var exist = this.statpath(path);
         if(!exist)
-        {
-            fs.mkdir(path);
-        }
-        electron.app.on('ready', this.createWindow);
+            fs.mkdir(path, () =>
+            {
+                console.log('Creating directory');
+            });
+
+        electron.app.on('ready', this.createwindow);
 
         electron.ipcMain.on('async-port', (event, port) =>
         {
             const server = net.createServer((socket) =>
             {
-
                 socket.on('end', () =>
                 {
                     console.log('client disconnected');
                 });
 
-                socket.on('data',(data) =>
+                socket.on('data', (data) =>
                 {
                     console.log('Receiving data\nTransfered Bytes : ' + data.length);
-                    let fileToSave = path + '/file' + num;
+                    let filetosave = path + '/file' + num;
                     num++;
-                    console.log(fileToSave);
-                    fs.open(fileToSave, "w", function (err, fd) 
+                    fs.open(filetosave, 'w', function(err, fd) 
                     {
-                        fs.writeFile(fileToSave, data, (err) =>
+                        fs.writeFile(filetosave, data, (err) =>
                         {
-                            if (err) throw err;
+                            if(err) throw err;
                             console.log('The file has been saved!');
                         });
                     });
@@ -65,10 +63,10 @@ export class App
 
         electron.ipcMain.on('async', (event, ip, port, file) =>
         {
-            var socket = new net.Socket;
-            var fileToSave = file.substring(file.lastIndexOf("/"));
-            console.log(fileToSave);
-            fs.readFile(file, "utf8", (err, data) =>
+            let socket = new net.Socket;
+            let filetosave = file.substring(file.lastIndexOf('/'));
+            console.log(filetosave);
+            fs.readFile(file, 'utf8', (err, data) =>
             {
                 if(!err)
                 {
@@ -79,21 +77,17 @@ export class App
                     });
                 }
                 else
-                {
                   console.log('readfile ' + file + ' err');
-                }
             });
-
         });
     }
 
     /**
      * This method create the windows and load index.html
      */
-    private createWindow()
+    private createwindow()
     {
-        let win;
-        win = new electron.BrowserWindow({width: 800, height: 600});
+        let win = new electron.BrowserWindow({width: 800, height: 600});
         win.loadURL(url.format({
             pathname: path.join(__dirname, '../resources/index.html'),
             protocol: 'file:',
@@ -106,13 +100,16 @@ export class App
         });
     }
 
-    private statPath(path)
+    private statpath(path)
     {
-        try 
+        try
         {
-          return fs.statSync(path);
+            return fs.statSync(path);
         }
-        catch (ex) {}
+        catch(ex)
+        {
+            console.error(ex);
+        }
         return false;
       }
 }
