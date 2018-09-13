@@ -12,22 +12,31 @@ export default class Client
     {
         this._id = id;
         this._username = username;
-        this._server.ip = 'localhost';
-        this._server.port = 8000;
+        this._server = {
+            ip: 'localhost',
+            port: 8000
+        };
+        this._socket = dgram.createSocket('udp4');
     }
 
     public connect(server?:Interfaces.Address): Promise <Interfaces.Address>
     {
-        console.log('0');
-        return new Promise((resolve, reject) =>
+        return new Promise<Interfaces.Address>((resolve, reject) =>
         {
             this._socket.bind();
+
+            this._socket.on('listening', () =>
+            {
+                console.log(`[CLIENT] Listening on port ${this._socket.address().port}`)
+            });
+
             this._socket.on('message', (msg,rinfo) =>
             {
                 let message: Interfaces.IMessage;
                 message = JSON.parse(msg.toString());
 
-                switch(message.type) { 
+                switch(message.type) 
+                { 
                     case Interfaces.MessageType.MESSAGE: 
                     { 
                         console.log(`${message.source.username}: ${message.payload}`)
@@ -36,50 +45,52 @@ export default class Client
                     default: 
                     { 
                         throw new Error('Wrong message.');
-                        
-                        break; 
                     } 
                  } 
-            })
+            });
 
             if(server != null)
             {
-                console.log('1');
                 this._server.ip = server.ip;
                 this._server.port = server.port;
             }
-            console.log('2');
-            let msg: Interfaces.IMessage;
-            msg.type = Interfaces.MessageType.REGISTRATION;
-            msg.source.id = this._id;
-            msg.source.username = this._username;
+
+            let msg: Interfaces.IMessage = {
+                type : Interfaces.MessageType.REGISTRATION,
+                source : {id: this._id, username: this._username}
+            };
+
             this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip, (err) => 
             {
                 if (err)
-                    reject();
+                    reject(err);
                 
-                let address: Interfaces.Address;
-                address.ip = this._server.ip;
-                address.port = this._server.port;
+                let address: Interfaces.Address = {
+                    ip: this._server.ip,
+                    port: this._server.port
+                };
+
                 resolve(address);
             });
-
-        })
+        });
     }
 
     public disconnect(): Promise <any>
     {
-        return new Promise((resolve, reject) =>
+        return new Promise<any>((resolve, reject) =>
         {
-            let msg: Interfaces.IMessage;
-            msg.type = Interfaces.MessageType.LEAVE;
-            msg.source.id = this._id;
-            msg.source.username = this._username;
+            let msg: Interfaces.IMessage = {
+                type: Interfaces.MessageType.LEAVE,
+                source: {id: this._id, username: this._username}
+            };
+
             this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip, (err) => 
             {
                 if (err)
-                    reject();
+                    reject(err);
+
                 this._socket.close();
+                this._socket = dgram.createSocket('udp4');
                 resolve();
             });
             
@@ -88,18 +99,19 @@ export default class Client
 
     public send(message: string, to: number): Promise <any>
     {
-        return new Promise((resolve, reject) =>
+        return new Promise<any>((resolve, reject) =>
         {
-            let msg: Interfaces.IMessage;
-            msg.type = Interfaces.MessageType.MESSAGE;
-            msg.source.id = this._id;
-            msg.source.username = this._username;
-            msg.destination = to;
-            msg.payload = message;
+            let msg: Interfaces.IMessage = {
+                type: Interfaces.MessageType.MESSAGE,
+                source: {id: this._id, username: this._username},
+                destination: to,
+                payload: message
+            };
+
             this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip, (err) => 
             {
                 if (err)
-                    reject();
+                    reject(err);
                 
                 resolve();
             });
@@ -108,17 +120,18 @@ export default class Client
 
     public broadcast(message: string): Promise <any>
     {
-        return new Promise((resolve, reject) =>
+        return new Promise<any>((resolve, reject) =>
         {
-            let msg: Interfaces.IMessage;
-            msg.type = Interfaces.MessageType.BROADCAST;
-            msg.source.id = this._id;
-            msg.source.username = this._username;
-            msg.payload = message;
+            let msg: Interfaces.IMessage= {
+                type: Interfaces.MessageType.BROADCAST,
+                source: {id: this._id, username: this._username},
+                payload: message
+            };
+
             this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip, (err) => 
             {
                 if (err)
-                    reject();
+                    reject(err);
                 
                 resolve();
             }); 
