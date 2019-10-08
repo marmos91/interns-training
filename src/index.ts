@@ -1,4 +1,5 @@
-export class Challenge {
+export class Challenge
+{
   async buzz(x: number)
   {
     let output = ''
