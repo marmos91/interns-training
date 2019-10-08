@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/cubbit/interns-training#readme",
   "dependencies": {
-    "@types/node": "^8.0.46",
+    "@types/node": "^8.10.54",
     "fs-extra": "^4.0.2",
     "request": "^2.83.0"
   },
