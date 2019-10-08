@@ -1,6 +1,7 @@
 function say(name)
 {
-  if (!name) return 'Hello world!'
+  if(!name)
+    return 'Hello world!'
 
   return `Hello ${name}!`
 }
