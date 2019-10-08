@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Cubbit interns training",
   "scripts": {
-    "test": "gulp test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,18 +27,12 @@
     "request": "^2.83.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.3",
-    "@types/mocha": "^2.2.48",
-    "@types/sinon": "^2.3.6",
-    "@types/supertest": "^2.0.3",
-    "chai": "^4.2.0",
+    "@types/jest": "^24.0.18",
     "gulp": "^4.0.2",
-    "gulp-mocha": "^7.0.2",
     "gulp-shell": "^0.6.3",
     "gulpclass": "^0.2.0",
-    "mocha": "^4.0.1",
-    "sinon": "^4.0.1",
-    "supertest": "^3.0.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
     "ts-node": "^3.3.0",
     "typescript": "^3.6.3"
   }
