@@ -2,15 +2,15 @@ export class Challenge
 {
   async buzz(x: number)
   {
-    let output = ''
+    let output = '';
     if(x % 3 === 0)
-      output += 'fizz'
+      output += 'fizz';
     if(x % 5 === 0)
-      output += 'buzz'
+      output += 'buzz';
 
     if(!output)
-      return x
+      return x;
 
-    return output
+    return output;
   }
 }
