@@ -24,7 +24,7 @@ and must return alternatively:
 - the string `"Hello world!"` if nothing is passed as parameter
 - the string `"Hello ${name}"` if a name is passed as a parameter
 
-Try out your brand new application launching again `npm test`. When both the tests will pass correctly please make a pull request to get your code reviewed. 
+Try out your brand new application launching again `npm test`. When both the tests will pass correctly please make a pull request to get your code reviewed.
 
 ![Screenshot](screenshot.png)
 
