@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/cubbit/interns-training#readme",
   "dependencies": {
-    "@types/node": "^8.0.46"
+    "@types/node": "^8.10.54"
   },
   "devDependencies": {
     "@types/chai": "^4.0.4",
