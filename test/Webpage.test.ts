@@ -29,9 +29,12 @@ describe('Level 2 - Webpage', () =>
       const errorMsg = 'Dummy error';
       request.get = jest.fn((url: String, cb: RequestGetCallback) => cb(new Error(errorMsg)));
 
-      try {
+      try
+      {
         await webpage.getWebpage('url');
-      } catch (error) {
+      }
+      catch(error)
+      {
         expect(error).toEqual(new Error(errorMsg));
       }
     });
@@ -40,9 +43,12 @@ describe('Level 2 - Webpage', () =>
     {
       request.get = jest.fn((url: String, cb: RequestGetCallback) => cb(null, { statusCode: 404 }));
 
-      try {
+      try
+      {
         await webpage.getWebpage('url');
-      } catch (error) {
+      }
+      catch(error)
+      {
         expect(error).toBeTruthy();
       }
     });
@@ -73,9 +79,12 @@ describe('Level 2 - Webpage', () =>
       const errorMsg = 'Dummy error';
       webpage.getWebpage = jest.fn(() => Promise.reject(errorMsg));
 
-      try {
+      try
+      {
         await webpage.saveWebpage('url', 'path');
-      } catch (error) {
+      }
+      catch(error)
+      {
         expect(error).toEqual(new Error(errorMsg));
       }
     });
@@ -105,9 +114,12 @@ describe('Level 2 - Webpage', () =>
       const errorMsg = 'Dummy error';
       fs.writeFile = jest.fn((path, content, cb) => cb(new Error(errorMsg)));
 
-      try {
+      try
+      {
         await webpage._writeFile('path', 'content');
-      } catch (error) {
+      }
+      catch(error)
+      {
         expect(error).toEqual(new Error(errorMsg));
       }
     });
