@@ -1,6 +1,6 @@
-import {Socket, AddressInfo, createSocket} from "dgram";
+import {Socket, AddressInfo, createSocket} from 'dgram';
 
-import {Address, IMessage, MessageType} from "./Interfaces";
+import {Address, IMessage, MessageType} from './Interfaces';
 
 class Client
 {
@@ -9,8 +9,9 @@ class Client
     private _socket: Socket;
     private _server: Address = Client._default_server;
 
-    constructor(private _id: number, private _username: string) {
-        this.reset()
+    constructor(private _id: number, private _username: string)
+    {
+        this.reset();
     };
 
     async connect(server?: Address): Promise <Address>
@@ -22,7 +23,7 @@ class Client
         
         await this.send_message_to_server(this.create_message(MessageType.REGISTRATION));
 
-        return this._server
+        return this._server;
     };
 
     async disconnect(): Promise <any>
@@ -63,7 +64,8 @@ class Client
     {
         return {
             type,
-            source: {
+            source:
+            {
                 id: this._id,
                 username: this._username,
             },
@@ -105,4 +107,4 @@ class Client
     };
 }
 
-export default Client
+export default Client;
