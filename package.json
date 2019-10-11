@@ -5,7 +5,8 @@
   "main": "build/src/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && node build/src/index.js"
+    "start": "npm run build && node build/src/index.js",
+    "test": "npm run build && mocha -b build/test/**/*.js"
   },
   "repository": {
     "type": "git",
