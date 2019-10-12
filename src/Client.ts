@@ -98,11 +98,13 @@ class Client
         });
     };
 
-    private static serialize_message(message: IMessage): string {
+    private static serialize_message(message: IMessage): string
+    {
         return JSON.stringify(message);
     };
 
-    public static deserialize_message(message: Buffer): IMessage {
+    public static deserialize_message(message: Buffer): IMessage
+    {
         return JSON.parse(message.toString());
     };
 }

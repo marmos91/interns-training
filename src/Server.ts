@@ -40,13 +40,15 @@ class Server
         this._socket.bind(this._port);
     };
 
-    shutdown(callback?)
+    shutdown(callback?: () => void)
     {
         this._clients = {};
 
-        if(this._socket) return this._socket.close(callback);
+        if(this._socket)
+            return this._socket.close(callback);
 
-        if(callback) return callback();
+        if(callback)
+            return callback();
     };
 
     private on_close()
@@ -54,7 +56,7 @@ class Server
         console.log('Server::closed');
     }
 
-    private on_error(error)
+    private on_error(error: Error)
     {
         console.error('Server::error', error);
         this.shutdown();
@@ -70,7 +72,8 @@ class Server
         
         console.log('Server::message', message, address);
 
-        switch (message.type) {
+        switch (message.type)
+        {
             case MessageType.REGISTRATION:
             {
                 this._clients[message.source.id] = {
