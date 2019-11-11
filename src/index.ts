@@ -2,7 +2,7 @@ export class Challenge
 {
 public buzz(value :number)
 {
-  return new Promise((resolve, reject) =>
+    return new Promise((resolve, reject) =>
 {
     if ((value % 3 === 0) && (value % 5 === 0))
     {
@@ -17,6 +17,6 @@ public buzz(value :number)
       return resolve('buzz');
     }
     else return resolve(value);
-  });
+});
 
 }}
