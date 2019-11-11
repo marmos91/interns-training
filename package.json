@@ -1,0 +1,26 @@
+{
+  "name": "omarserrah",
+  "version": "1.0.0",
+  "description": "training",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarSerrah/interns-training.git"
+  },
+  "author": "omar serrah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarSerrah/interns-training/issues"
+  },
+  "homepage": "https://github.com/OmarSerrah/interns-training#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
