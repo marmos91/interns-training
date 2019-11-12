@@ -1,13 +1,9 @@
 function say(name)
 {
-    if (name === undefined || name === null)
-    {
-    return "Hello world!";
-    }
+    if(!name)
+        return "Hello world!";
     else
-    {
-    return "Hello " + name + "!";
-    }
+        return "Hello " + name + "!";
 }
 
 module.exports = {say};

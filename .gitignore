@@ -171,6 +171,9 @@ ehthumbs_vista.db
 # Folder config file
 Desktop.ini
 
+#build artifacts
+build
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
