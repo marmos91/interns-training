@@ -2,109 +2,134 @@ import {Socket, AddressInfo, createSocket} from 'dgram';
 import {Address, IMessage, MessageType, IClient} from './Interfaces';
 import * as Interfaces from './Interfaces';
 import * as dgram from 'dgram';
-
+const _default_server: Interfaces.Address = {
+    ip: "localhost",
+    port: 8000
+};
 class Client
 {
-
     private _id: number;
-    private _username: string;
-    private _socket: dgram.Socket;
-    private _server: Interfaces.Address;
+    private _username: string;    
+    private _socket: Socket;
+    private _server: Address = _default_server;
 
-    constructor(id: number, username: string)
+    constructor( id: number, username: string)
     {
         this._id = id;
         this._username = username;
-        this._server = {
-            ip: 'localhost',
-            port: 8000
-        };
         this._socket = dgram.createSocket('udp4');
-    }
+        this._server = _default_server;
 
-    public static json_to_message(message: Buffer): IMessage
+    };
+
+    async connect(server?: Address): Promise <Address>
+    {
+        if(server)
+            this._server = server;
+        else 
+            this._server = _default_server;
+
+        console.log('connected');
+        await this._send_message_to_server(this._create_message(MessageType.REGISTRATION));
+        
+        return this._server;
+    };
+
+    public disconnect(): Promise <any>
+    {  
+        return new Promise<any>((resolve, reject) =>
+        {
+            let msg: Interfaces.IMessage = 
+            {
+                type: Interfaces.MessageType.LEAVE,
+                source: {id: this._id, username: this._username}
+            };
+
+            try
+            {
+                this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip, (err) => 
+                {
+                    if (err)
+                        return reject(err);
+
+                    this._socket.close();
+                    this._socket = createSocket('udp4');
+                    return resolve();
+                });
+            }
+            catch(error)
+            {
+                return resolve();
+            }
+        });
+    };
+
+    public static json_to_msg(message: Buffer): IMessage
     {
         return JSON.parse(message.toString());
     };
 
-    public connect(server?:Interfaces.Address): Promise <Interfaces.Address>
+    send(message: string, to: number): Promise <any>
     {
-        return new Promise<Interfaces.Address>((resolve, reject) =>
-        {
-            this._socket.bind();
+        console.log(`Client(${this._id}) is disconnected`, message, to);
 
-            this._socket.on('message', (msg,_rinfo) =>
+        return this._send_message_to_server(this._create_message(MessageType.MESSAGE, message, to));
+    };
+
+    broadcast(message: string): Promise <any>
+    {
+        console.log(`Client(${this._id})'s sendind a broadcast message`, message);
+
+        return this._send_message_to_server(this._create_message(MessageType.BROADCAST, message));
+    };
+
+    private _create_message(type: MessageType, payload?: string, destination?: number): IMessage
+    {
+        return{
+            type,
+            source:
             {
-                let message: Interfaces.IMessage;
-                message = JSON.parse(msg.toString());
-                this._server.ip = server.ip;
-                this._server.port = server.port;
+                id: this._id,
+                username: this._username,
+            },
+            destination,
+            payload,
+        };
+    };
+
+    private _send_message_to_server(message: IMessage): Promise<any>
+    {
+        if(!this._socket)
+            return;
+        
+        try
+        {
+            return new Promise((resolve, reject) =>
+            {
+                const msg = JSON.stringify(message);
+                this._socket.send(
+                    msg,
+                    0,
+                    msg.length,
+                    this._server.port,
+                    this._server.ip,
+                    (error) => 
+                    {
+                        console.log(`Client(${this._id})::`, message, error);
+                        
+                        if(error)
+                            return reject(error);
+                        
+                        return resolve();
+                    }
+                );
             });
-        });
-    }
-
-    public disconnect()
-    {
-            let msg: Interfaces.IMessage = 
-            {
-                type: Interfaces.MessageType.LEAVE,
-                source: 
-                {
-                    id: this._id, 
-                    username: this._username
-                }
-            };
-                this._socket.close();
-                this._socket = dgram.createSocket('udp4');
-    };
-
-    public registration(message: string, server: number)
-    {
-        let msg: Interfaces.IMessage =
-        {
-            type: Interfaces.MessageType.REGISTRATION,
-            source: 
-            {
-                id: this._id, 
-                username: this._username
-            },
-            destination: this._server.port,
-            payload: message
         }
-    }
-
-    public send_message(message: string, peer: number)
-    {
-        let msg: Interfaces.IMessage = 
+        catch(error)
         {
-            type: Interfaces.MessageType.MESSAGE,
-            source: 
-            {
-                id: this._id,
-                username: this._username
-            },
-            destination: peer,
-            payload: message
-        };
-        this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip);
+            return;
+        }
     };
+}
 
-    public broadcast(message: string)
-    {
-        let msg: Interfaces.IMessage= 
-        {
-            type: Interfaces.MessageType.BROADCAST,
-            source: 
-            {
-                id: this._id,
-                username: this._username
-            },
-            payload: message
-        };
-      this._socket.send(JSON.stringify(msg), this._server.port, this._server.ip)
-    };
-
-
-};
-
-export default Client
+export default Client;

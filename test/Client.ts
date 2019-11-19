@@ -33,14 +33,15 @@ describe('Client', () =>
         client.connect().then((connected_server: Address) =>
         {
             expect(connected_server).to.be.deep.equal(server_endpoint_default);
-            return client.disconnect().then(() => server.shutdown(done));
+            return client.disconnect().then(() => {
+                server.shutdown(done)
+            });
         }).catch((error) =>
         {
             if (error)
                 console.error(error);
 
             expect(error).to.be.undefined;
-
             server.shutdown(done);
         });
     });
@@ -53,14 +54,11 @@ describe('Client', () =>
         {
             expect(dgram_stub.calledWith(sinon.match.any, sinon.match.any, sinon.match.any, 8888, 'api.server.net')).to.be.true;
             expect(connected_server).to.be.deep.equal({ip: 'api.server.net', port: 8888});
-        }).then(() => server.shutdown(done)).catch((error) =>
-        {
-            if (error)
-                console.error(error);
-
-            expect(error).to.be.undefined;
 
             server.shutdown(done);
+        }).catch((error) =>
+        {
+            done(error)
         });
     });
 

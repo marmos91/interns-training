@@ -47,7 +47,7 @@ describe('Server', () =>
 
         server.listen({
             port: {
-                port: 7000, number: (port) => {
+                port: 7000, number: (port: any) => {
                     expect(bind_spy.calledOnce).to.be.true;
                     expect(port).to.equal(7000);
                     server.shutdown(done);
