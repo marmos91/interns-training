@@ -1,0 +1,27 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "Hi **${name}**, and welcome to the **Cubbit** training repository's **level 0**. Please refer to the repository [main branch](https://github.com/cubbit/interns-training#structure-of-this-repository) to major information about this repositories and about the rules.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacopoBonta/interns-training.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacopoBonta/interns-training/issues"
+  },
+  "homepage": "https://github.com/JacopoBonta/interns-training#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
