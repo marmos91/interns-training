@@ -80,7 +80,7 @@ describe('Level 2 - Unit', () =>
             expect(calculator.operation.bind(calculator, Operation.ADD)).not.to.throw('Pending operation... Insert a value.');
         });
 
-        it('should process multipleß operations', () =>
+        it('should process multiple operations', () =>
         {
             // (((16 + 2) / 3) * 2) - 1
             calculator.input(16);
