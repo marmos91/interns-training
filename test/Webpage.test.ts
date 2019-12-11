@@ -1,8 +1,7 @@
-import {expect} from 'chai'
-import {Webpage} from '../src/Webpage'
+import {expect} from 'chai';
+import {Webpage} from '../src/Webpage';
 import {stub} from 'sinon';
-import * as ServerMock from 'mock-http-server'
-import * as fs from 'fs';
+import * as ServerMock from 'mock-http-server';
 
 describe('Level 2 - Unit', () =>
 {
