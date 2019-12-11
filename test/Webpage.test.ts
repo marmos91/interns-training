@@ -26,12 +26,11 @@ describe('Level 2 - Unit', () =>
                     }
                 });
 
-                webpage.getWebpage('http://localhost:9000/test')
-                    .then((body) =>
-                    {
-                        expect(body).to.be.equal('<h1>Hello, Cubbit!</h1>');
-                        done();
-                    });
+                webpage.getWebpage('http://localhost:9000/test').then((body) =>
+                {
+                    expect(body).to.be.equal('<h1>Hello, Cubbit!</h1>');
+                    done();
+                });
             });
 
             it('should reject if page not found', (done) =>
@@ -55,10 +54,10 @@ describe('Level 2 - Unit', () =>
 
         describe('saveWebpage method', () =>
         {
-            let get_webpage, write_file, webpage
-                , url = 'http://localhost:9000/foo'
-                , path = 'my/cool/path'
-                , content = 'some content';
+            let get_webpage, write_file, webpage,
+                url = 'http://localhost:9000/foo',
+                path = 'my/cool/path',
+                content = 'some content';
 
             beforeEach(() =>
             {
@@ -75,13 +74,12 @@ describe('Level 2 - Unit', () =>
 
             it('should call getWebpage and _writeFile once', (done) =>
             {
-                webpage.saveWebpage(url, path)
-                    .then(() =>
-                    {
-                        expect(get_webpage.calledOnceWith(url)).to.be.true;
-                        expect(write_file.calledOnceWith(path, content)).to.be.true;
-                        done();
-                    });
+                webpage.saveWebpage(url, path).then(() =>
+                {
+                    expect(get_webpage.calledOnceWith(url)).to.be.true;
+                    expect(write_file.calledOnceWith(path, content)).to.be.true;
+                    done();
+                });
             });
         })
     });
