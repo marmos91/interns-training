@@ -6,31 +6,55 @@ describe('Level 2 - Unit', () =>
 {
     describe('Webpage', () =>
     {
-        let server = new ServerMock({ host: 'localhost', port: 8080 });
-        let webpage = new Webpage();
-
-        beforeEach((done) => server.start(done));
-        afterEach((done) => server.stop(done));
-
-        it('should call getWebPage and _writeFile once', () =>
+        describe('getWebpage method', () =>
         {
-            server.on({
-                method: 'GET',
-                path: '/',
-                reply: {
-                    status:  200,
-                    headers: { "content-type": "text/html" },
-                    body: `
-                    <html>
-                        <body>
-                            <h1>Hello, Cubbit!</h1>
-                        </body>
-                    </html>`
-                }
+            let webpage;
+            let server = new ServerMock({ host: 'localhost', port: 9000 });
+
+            beforeEach((done) => {
+                webpage = new Webpage()
+                server.start(done)
+            });
+            afterEach((done) => server.stop(done));
+
+            it('should resolve to page body', (done) =>
+            {
+                server.on({
+                    method: '*',
+                    path: '/test',
+                    reply: {
+                        status: 200,
+                        headers: { 'content-type': 'text/html'},
+                        body: '<h1>Hello, Cubbit!</h1>'
+                    }
+                });
+
+                webpage.getWebpage('http://localhost:9000/test')
+                    .then((body) =>
+                    {
+                        expect(body).to.be.equal('<h1>Hello, Cubbit!</h1>');
+                        done();
+                    });
             });
 
-            return webpage.saveWebpage('http://localhost:8080/', '~/Desktop');
+            it('should reject if page not found', (done) =>
+            {
+                server.on({
+                    method: '*',
+                    path: '/test',
+                    reply: {
+                        status: 404,
+                        headers: { 'content-type': 'text/html'},
+                        body: '<h1>Hello, Cubbit!</h1>'
+                    }
+                });
 
-        });
+                webpage.getWebpage('http://localhost:9000/test')
+                    .catch(error =>
+                        {
+                            done();
+                        });
+            });
+        })
     });
 });
