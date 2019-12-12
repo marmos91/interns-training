@@ -31,9 +31,11 @@ export default class Client
 
         const buf = Buffer.from(JSON.stringify(registration_message));
 
-        this._socket.on('message', (msg) => console.log(`${this._username}) ${msg.toString()}`));
-
-        return this._send(registration_message).then(() => server);
+        return new Promise((resolve) => this._socket.send(buf, this._server.port, this._server.ip, () =>
+        {
+            this._socket.on('message', (msg) => console.log(`${this._username}) ${msg.toString()}`));
+            resolve(server);
+        }));
     }
 
     /**
@@ -46,8 +48,15 @@ export default class Client
             destination: this._server.port,
             source: {id: this._id, username: this._username}
         };
-
-        return this._send(leave_message).then(() => this._socket.close(() => this._socket = dgram.createSocket('udp4')));
+        
+        return new Promise((resolve) => this._socket.send(Buffer.from(JSON.stringify(leave_message)), this._server.port, this._server.ip, () =>
+        {
+            this._socket.close(() =>
+            {
+                this._socket = dgram.createSocket('udp4');
+                resolve();
+            });
+        }));
     }
 
     /**
@@ -63,10 +72,18 @@ export default class Client
                 username: this._username
             },
             payload: message,
-            destination: to,
+            destination: to
         };
 
-        return this._send(msg);
+        return new Promise((resolve, reject) =>
+        {
+            this._socket.send(Buffer.from(JSON.stringify(msg)), this._server.port, this._server.ip, (error) =>
+            {
+                if (error)
+                    return reject(error);
+                resolve();
+            });
+        });
     }
 
     /**
@@ -74,7 +91,7 @@ export default class Client
      * @param message the message payload
      */
     public broadcast(message: string): Promise<any> {
-        const broadcast_message = <IMessage> {
+        const broadcast_message = <IMessage>{
             type: MessageType.BROADCAST,
             source: {
                 id: this._id,
@@ -83,15 +100,9 @@ export default class Client
             payload: message,
         };
 
-        return this._send(broadcast_message);
-    }
-
-    private _send(message: IMessage): Promise<any>
-    {
-        const buf = Buffer.from(JSON.stringify(message));
         return new Promise((resolve, reject) =>
         {
-            this._socket.send(buf, buf.byteOffset, buf.length, this._server.port, this._server.ip, (error) =>
+            this._socket.send(Buffer.from(JSON.stringify(broadcast_message)), this._server.port, this._server.ip, (error) =>
             {
                 if (error)
                     return reject(error);
