@@ -61,6 +61,11 @@ export default class Server
                     throw new Error('invalid message type');
             }
         });
+
+        this._socket.on('close', () =>
+        {
+            console.log('socket closed');
+        });
     }
 
     /**
@@ -69,10 +74,11 @@ export default class Server
      */
     public shutdown(callback?: () => void): void
     {
-        this._socket.close(callback);
-        this._socket.on('close', () =>
+        this._socket.close(() =>
         {
             this._socket = dgram.createSocket('udp4');
+            this._clients = {};
+            callback();
         });
     }
 
