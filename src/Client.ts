@@ -46,15 +46,12 @@ export default class Client
             source: {id: this._id, username: this._username}
         };
 
-        return this._send(leave_message).then(() =>
+        return new Promise((resolve, reject) =>
         {
-            return new Promise((resolve, reject) =>
+            this._socket.close(() =>
             {
-                this._socket.close(() =>
-                {
-                    this._socket = dgram.createSocket('udp4');
-                    resolve();
-                });
+                this._socket = dgram.createSocket('udp4');
+                resolve();
             });
         });
     }
