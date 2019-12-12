@@ -78,7 +78,8 @@ export default class Server
         {
             this._socket = dgram.createSocket('udp4');
             this._clients = {};
-            callback();
+            if (callback)
+                callback();
         });
     }
 
