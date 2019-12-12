@@ -1,11 +1,14 @@
-import { IClient, IMessage, MessageType } from "./Interfaces";
+import { IClient, IMessage, MessageType, Address } from './Interfaces';
 import * as dgram from 'dgram';
 
+/**
+ * An udp4 socket chat server with the ability to send and broadcast messages to connected clients.
+ */
 export default class Server
 {
     private _port: number;
     private _socket: dgram.Socket;
-    private _clients: {[id: number] : IClient};
+    private _clients: {[id: number]: IClient};
 
     constructor()
     {
@@ -18,31 +21,34 @@ export default class Server
      * @param port the port to bind the socket at
      * @param callback a callback function that is called after the server is started
      */
-    listen(port?: number | ((port: number) => void), callback?: (port: number) => void)
+    public listen(port?: number | ((port: number) => void), callback?: (port: number) => void)
     {
         this._port = typeof port === 'number' ? port : 8000;
-        let cb = typeof port === 'function'? port : callback;
+        const cb = typeof port === 'function'? port : callback;
 
         this._socket.bind(this._port);
-        
+
         if (cb)
             this._socket.on('listening', cb);
         
         this._socket.on('message', (msg, rinfo) =>
         {
-            let message = <IMessage>JSON.parse(msg.toString());
-            let client = this._clients[message.source.id];
+            const message = <IMessage>JSON.parse(msg.toString());
+            const client = this._clients[message.source.id];
+
+            if (!client && message.type !== MessageType.REGISTRATION)
+                this.sendMessage('You must send a registration message first in order to interact with the server', {ip: rinfo.address, port: rinfo.port});
 
             switch(message.type)
             {
                 case MessageType.REGISTRATION:
-                    this.registerClient(client);
+                    this.registerClient(message.source.id, message.source.username, {ip: rinfo.address, port: rinfo.port});
                     break;
                 case MessageType.LEAVE:
                     this.removeClient(client.id);
                     break;
                 case MessageType.MESSAGE:
-                    this.sendMessage(client.id, message.payload);
+                    this.sendMessage(message.payload, client.address);
                     break;
                 case MessageType.BROADCAST:
                     this.broadcastMessage(message.payload);
@@ -57,25 +63,27 @@ export default class Server
      * Close the socket connection and instantiate a new one in order to perform another bind call
      * @param callback a callback function that is called after the server is shutted down
      */
-    shutdown(callback?: () => void): void
+    public shutdown(callback?: () => void): void
     {
         this._socket.close(callback);
         this._socket.on('close', () =>
         {
             this._socket = dgram.createSocket('udp4');
-        })
+        });
     }
 
     /**
      * Add a client to the dictionary of connected clients.
      * It throws an error if the client is already registered.
-     * @param client the client to register
+     * @param id the client's id
+     * @param username the client username
+     * @param address the Address of the client
      */
-    private registerClient(client: IClient): void
+    private registerClient(id: number, username: string, address: Address): void
     {
-        if (client.id in this._clients)
-            throw new Error(`client ${client.id} already registered`)
-        this._clients[client.id] = client;
+        if (id in this._clients)
+            throw new Error(`client ${id} already registered as ${username}`);
+        this._clients[id] = {id, username, address};
     }
 
     /**
@@ -99,14 +107,12 @@ export default class Server
 
     /**
      * send a message to a client
-     * @param id the id of the receiver client
      * @param message the message to send
+     * @param address the client address
      */
-    private sendMessage(id: number, message: string): void
+    private sendMessage(message: string, address: Address): void
     {
-        let client = this._clients[id];
-
         // this._socket.setBroadcast(false); unsure but maybe it needs
-        this._socket.send(message, client.address.port, client.address.ip);
+        this._socket.send(message, address.port, address.ip);
     }
 }
