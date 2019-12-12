@@ -29,11 +29,11 @@ export default class Client
             source: {id: this._id, username: this._username}
         };
 
-        return new Promise((resolve) => this._socket.send(Buffer.from(JSON.stringify(registration_message)), this._server.port, this._server.ip, () =>
-        {
-            this._socket.on('message', (msg) => console.log(`${this._username}) ${msg.toString()}`));
-            resolve(server);
-        }));
+        const buf = Buffer.from(JSON.stringify(registration_message));
+
+        this._socket.on('message', (msg) => console.log(`${this._username}) ${msg.toString()}`));
+
+        return this._send(registration_message).then(() => server);
     }
 
     /**
@@ -46,15 +46,8 @@ export default class Client
             destination: this._server.port,
             source: {id: this._id, username: this._username}
         };
-        
-        return new Promise((resolve) => this._socket.send(Buffer.from(JSON.stringify(leave_message)), this._server.port, this._server.ip, () =>
-        {
-            this._socket.close(() =>
-            {
-                this._socket = dgram.createSocket('udp4');
-                resolve();
-            });
-        }));
+
+        return this._send(leave_message).then(() => this._socket.close(() => this._socket = dgram.createSocket('udp4')));
     }
 
     /**
@@ -63,17 +56,17 @@ export default class Client
      * @param to the client destination id
      */
     public send(message: string, to: number): Promise<any> {
-        const letter = this._envelop(message, to);
+        const msg = <IMessage>{
+            type: MessageType.MESSAGE,
+            source: {
+                id: this._id,
+                username: this._username
+            },
+            payload: message,
+            destination: to,
+        };
 
-        return new Promise((resolve, reject) =>
-        {
-            this._socket.send(Buffer.from(JSON.stringify(letter)), this._server.port, this._server.ip, (error) =>
-            {
-                if (error)
-                    return reject(error);
-                resolve();
-            });
-        });
+        return this._send(msg);
     }
 
     /**
@@ -81,28 +74,8 @@ export default class Client
      * @param message the message payload
      */
     public broadcast(message: string): Promise<any> {
-        const letter = this._envelop(message);
-
-        return new Promise((resolve, reject) =>
-        {
-            this._socket.send(Buffer.from(JSON.stringify(letter)), this._server.port, this._server.ip, (error) =>
-            {
-                if (error)
-                    return reject(error);
-                resolve();
-            });
-        });
-    }
-
-    /**
-     * _envelop creates the appropriate IMessage to be sent to the server.
-     * @param message the message payload
-     * @param to optional. The id of the client the message is sent to.
-     */
-    private _envelop(message: string, to?: number): IMessage
-    {
-        const letter: IMessage = {
-            type: to ? MessageType.MESSAGE : MessageType.BROADCAST,
+        const broadcast_message = <IMessage> {
+            type: MessageType.BROADCAST,
             source: {
                 id: this._id,
                 username: this._username
@@ -110,9 +83,20 @@ export default class Client
             payload: message,
         };
 
-        if (to)
-            letter.destination = to;
+        return this._send(broadcast_message);
+    }
 
-        return letter;
+    private _send(message: IMessage): Promise<any>
+    {
+        const buf = Buffer.from(JSON.stringify(message));
+        return new Promise((resolve, reject) =>
+        {
+            this._socket.send(buf, buf.byteOffset, buf.length, this._server.port, this._server.ip, (error) =>
+            {
+                if (error)
+                    return reject(error);
+                resolve();
+            });
+        });
     }
 }
