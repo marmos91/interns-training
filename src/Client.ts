@@ -12,23 +12,27 @@ export default class Client
     {
         this._id = id;
         this._username = username;
-        this._socket = dgram.createSocket('udp4');
+        this._socket = dgram.createSocket({type: 'udp4'});
     }
 
     /**
-     * Connects the client to the server. It returns a Promise which resolves with the server's address.
+     * Send a registration message to the server. It returns a Promise which resolves with the server's address.
      * @param server specify the destination server ip and port. Defaults to {ip: 'localhost', port: 8000}
      */
     public connect(server: Address = {ip: 'localhost', port: 8000}): Promise<Address>
     {
         this._server = server;
 
-        return new Promise((resolve) => this._socket.bind(this._server.port, this._server.ip, () =>
-        {
-            this._socket.on('message', (msg) => console.log(msg.toString()));
+        const registration_message = <IMessage> {
+            type: MessageType.REGISTRATION,
+            destination: this._server.port,
+            source: {id: this._id, username: this._username}
+        };
 
-            const server_address = { ip: this._socket.address().address, port: this._socket.address().port};
-            resolve(server_address);
+        return new Promise((resolve) => this._socket.send(Buffer.from(JSON.stringify(registration_message)), this._server.port, this._server.ip, () =>
+        {
+            this._socket.on('message', (msg) => console.log(`${this._username}) ${msg.toString()}`));
+            resolve(server);
         }));
     }
 
@@ -36,10 +40,20 @@ export default class Client
      * Disconnect the client from the server and instantiate another udp4 socket.
      */
     public disconnect(): Promise<any> {
-        return new Promise((resolve, reject) => this._socket.close(() =>
+
+        const leave_message = <IMessage> {
+            type: MessageType.LEAVE,
+            destination: this._server.port,
+            source: {id: this._id, username: this._username}
+        };
+        
+        return new Promise((resolve) => this._socket.send(Buffer.from(JSON.stringify(leave_message)), this._server.port, this._server.ip, () =>
         {
-            this._socket = dgram.createSocket('udp4');
-            resolve();
+            this._socket.close(() =>
+            {
+                this._socket = dgram.createSocket('udp4');
+                resolve();
+            });
         }));
     }
 
