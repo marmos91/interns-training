@@ -41,7 +41,7 @@ export default class Server
             const message = <IMessage>JSON.parse(msg.toString());
 
             if (!this._clients[message.source.id] && message.type !== MessageType.REGISTRATION)
-                this._socket.send('You must send a registration message first in order to interact with the server', rinfo.port, rinfo.address);
+                this._send('You must send a registration message first in order to interact with the server', {port: rinfo.port, ip: rinfo.address});
 
             switch(message.type)
             {
@@ -125,6 +125,14 @@ export default class Server
     private sendMessage(message: string, to: number): void
     {
         const destination_address = this._clients[to].address;
-        this._socket.send(message, destination_address.port, destination_address.ip);
+        this._send(message, destination_address);
+    }
+
+    private _send(message: string, address: Address)
+    {
+        const message_str = JSON.stringify(message);
+        const buf = Buffer.from(message_str);
+        const bufLength = Buffer.byteLength(message_str);
+        this._socket.send(buf, 0, bufLength + 1, address.port, address.ip);
     }
 }
