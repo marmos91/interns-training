@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Solution4</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="../node_modules/bulma/css/bulma.css">
+    <style>
+        body {
+            background-color: rgb(255, 201, 24);
+        }
+
+        section {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="level">
+                <div class="level-item">
+                    <p class="title">Welcome to Electron</p>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-item">
+                    <p>Fill the form below to transfer a file</p>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-item">
+                    <div class="columns is-gapless">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input_address" class="input is-success" type="text" placeholder="IP Address" value="localhost">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input_port" class="input is-success" type="text" placeholder="port">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="file">
+                                <label class="file-label">
+                                    <input id="input_file" class="file-input" type="file" name="file">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-left"></div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <button class="button" onclick="sendButtonHandler()">Send</button>
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-item">
+                    <p>Server is listening on port <span id="port"></span></p>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-item">
+                    <p id="transfer-status"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="./index.js"></script>
+</body>
+</html>
