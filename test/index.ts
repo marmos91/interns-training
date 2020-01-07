@@ -4,7 +4,8 @@ import * as ServerMock from 'mock-http-server';
 import { expect, assert } from 'chai';
 import * as sinon from 'sinon';
 
-describe('Level 2 - Unit Testing (Calculator)', () => {
+describe('Level 2 - Unit Testing (Calculator)', () => 
+{
     let calc : Calculator;
 
     beforeEach(() => calc = new Calculator());
@@ -77,18 +78,21 @@ describe('Level 2 - Unit Testing (Calculator)', () => {
     });
 });
 
-describe('Level 2 - Unit Testing (Webpage)', () => {
+describe('Level 2 - Unit Testing (Webpage)', () => 
+{
     const server = new ServerMock({ host: 'localhost', port: 9000 });
     let web : Webpage;
 
-    beforeEach(done => {
+    beforeEach(done => 
+    {
         server.start(done);
         web = new Webpage();
     });
 
     afterEach(done => server.stop(done));
 
-    it('should return the html of the page requested from the mocked webserver', done => {
+    it('should return the html of the page requested from the mocked webserver', done => 
+    {
         server.on({
             method: 'GET',
             path: '/page',
@@ -99,14 +103,16 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").then(res => {
+        web.getWebpage("http://localhost:9000/page").then(res => 
+        {
             done();
 
             expect(res).to.equal('<!DOCTYPE><html><html><head></head><body></body></html>');
         });
     });
 
-    it('should return status code 404 from the mocked webserver from the requested page', done => {
+    it('should return status code 404 from the mocked webserver from the requested page', done => 
+    {
         server.on({
             method: 'GET',
             path: '/page',
@@ -115,7 +121,8 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").catch(err => {
+        web.getWebpage("http://localhost:9000/page").catch(err => 
+        {
             expect(err.statusCode).to.equal(404);
             done();
         });
@@ -135,7 +142,8 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
             }
         });
 
-        web.saveWebpage("http://localhost:9000/page", path).catch(() => {
+        web.saveWebpage("http://localhost:9000/page", path).catch(() => 
+        {
             saveFile.restore();
             done();
         });
@@ -156,7 +164,8 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
             }
         });
 
-        web.saveWebpage("http://localhost:9000/page", path).catch(() => {
+        web.saveWebpage("http://localhost:9000/page", path).catch(() => 
+        {
             assert(spySave.calledOnce);
             done();
         });
