@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Cubbit interns training",
   "scripts": {
-    "test": "gulp test"
+    "build": "tsc",
+    "test": "npm run build && mocha build/test/index.js"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 import { Calculator, Operation } from '../src/Calculator';
 import { Webpage } from '../src/Webpage';
 import * as ServerMock from 'mock-http-server';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import * as sinon from 'sinon';
 
 describe('Level 2 - Unit Testing (Calculator)', () => {
@@ -121,9 +121,9 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
         });
     });
 
-    it('should do something with saveWebpage', done =>
+    it('should just fail the promise of saveWebpage', done =>
     {
-        const path = 'static/xxx.txt',
+        const path = 'static/page.html',
               saveFile = sinon.stub(web, "saveWebpage").rejects();
 
         server.on({
@@ -137,6 +137,27 @@ describe('Level 2 - Unit Testing (Webpage)', () => {
 
         web.saveWebpage("http://localhost:9000/page", path).catch(() => {
             saveFile.restore();
+            done();
+        });
+    });
+
+    it('should just check if getWebpage is called once with saveWebpage', done =>
+    {
+        const path = 'static/page.html',
+              spySave = sinon.spy(web, "getWebpage"); // makes more sense if we could spy on _writeFile but is private, i didn't find a way sadly
+              
+        server.on({
+            method: 'GET',
+            path: '/page',
+            reply: {
+                status: 200,
+                headers: { "content-type": "text/html" },
+                body: '<!DOCTYPE><html><html><head></head><body></body></html>'
+            }
+        });
+
+        web.saveWebpage("http://localhost:9000/page", path).catch(() => {
+            assert(spySave.calledOnce);
             done();
         });
     });
