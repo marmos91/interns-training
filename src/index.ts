@@ -4,16 +4,14 @@ export class Challenge
     {
         return new Promise<string | number>((resolve, reject) => 
         {
-            let res: string | number = num;
-
             if(num % 3 === 0 && num % 5 === 0)
-                res = 'fizzbuzz';
+                return resolve('fizzbuzz');
             else if(num % 3 === 0)
-                res = 'fizz';
+                return resolve('fizz');
             else if(num % 5 === 0)
-                res = 'buzz';
+                return resolve('buzz');
 
-            resolve(res);
+            resolve(num);
         });
     }
 }
