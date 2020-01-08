@@ -1,7 +1,7 @@
-import { Calculator, Operation } from '../src/Calculator';
-import { Webpage } from '../src/Webpage';
+import {Calculator, Operation} from '../src/Calculator';
+import {Webpage} from '../src/Webpage';
 import * as ServerMock from 'mock-http-server';
-import { expect, assert } from 'chai';
+import {expect, assert} from 'chai';
 import * as sinon from 'sinon';
 
 describe('Level 2 - Unit Testing (Calculator)', () =>
@@ -151,7 +151,7 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
     it('should just check if getWebpage is called once with saveWebpage', (done) =>
     {
         const path = 'static/page.html',
-              spySave = sinon.spy(web, "getWebpage"); // makes more sense if we could spy on _writeFile but is private, i didn't find a way sadly
+              spySave = sinon.spy(web, "getWebpage");
               
         server.on({
             method: 'GET',
