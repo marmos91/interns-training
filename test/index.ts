@@ -4,7 +4,7 @@ import * as ServerMock from 'mock-http-server';
 import { expect, assert } from 'chai';
 import * as sinon from 'sinon';
 
-describe('Level 2 - Unit Testing (Calculator)', () => 
+describe('Level 2 - Unit Testing (Calculator)', () =>
 {
     let calc : Calculator;
 
