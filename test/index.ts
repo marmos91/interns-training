@@ -103,7 +103,7 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").then(response => 
+        web.getWebpage("http://localhost:9000/page").then((response) => 
         {
             done();
             expect(response).to.equal('<!DOCTYPE><html><html><head></head><body></body></html>');
