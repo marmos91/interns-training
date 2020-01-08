@@ -1,13 +1,13 @@
-import * as dgram from 'dgram';
+import {Socket, createSocket, AddressInfo} from 'dgram';
 import {Address, IMessage, MessageType} from './Interfaces';
 
 export default class Client 
 {
     private _id: number;
     private _username: string;
-    private _socket: dgram.Socket;
+    private _socket: Socket;
     private _server: Address;
-    private _default_server: Address = { ip: 'localhost', port: 8000 };
+    private _default_server: Address = {ip: 'localhost', port: 8000};
     private _source;
 
     constructor(id: number, username: string) 
@@ -23,11 +23,11 @@ export default class Client
         {
             this._server = server == null ? this._default_server : server;
 
-            this._socket = dgram.createSocket('udp4');
+            this._socket = createSocket('udp4');
             
             this._socket.on('listening', () => {});
 
-            this._socket.on('message', (msg: Buffer, rinfo: dgram.AddressInfo) => {
+            this._socket.on('message', (msg: Buffer, rinfo: AddressInfo) => {
                 console.log(msg.toString());
             });
                 
@@ -57,7 +57,7 @@ export default class Client
         return this._send_message(message, () => 
         {
             this._socket.close();
-            this._socket = dgram.createSocket('udp4');
+            this._socket = createSocket('udp4');
         });
     }
 

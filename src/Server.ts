@@ -1,17 +1,13 @@
 import {Socket, createSocket} from 'dgram';
 import {IClient, IMessage, MessageType, Address} from './Interfaces';
 
-export default class Server {
+export default class Server 
+{
     private _default_port = 8000;
     private _default_address = '0.0.0.0';
     private _port: number;
     private _socket: Socket;
     private _clients: {[id: number] : IClient}
-
-    constructor()
-    {
-        
-    }
 
     listen(port?: number | ((port: number) => void), callback?: (port: number) => void) : void 
     {
@@ -37,9 +33,12 @@ export default class Server {
         this._socket.on('message', (message) => 
         {
             let message_received: IMessage;
-            try {
+            try 
+            {
                 message_received = JSON.parse(message.toString());
-            } catch (e) {
+            }
+            catch (e) 
+            {
                 return;
             }
 
@@ -125,7 +124,8 @@ export default class Server {
         {
             const client: IClient = this._clients[client_id];
             
-            if (message.source.id == client.id) continue;
+            if(message.source.id == client.id) 
+                continue;
             
             message.destination = client.id;
 
