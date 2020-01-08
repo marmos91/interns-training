@@ -6,75 +6,75 @@ import * as sinon from 'sinon';
 
 describe('Level 2 - Unit Testing (Calculator)', () =>
 {
-    let calc: Calculator;
+    let calculator: Calculator;
 
-    beforeEach(() => calc = new Calculator());
+    beforeEach(() => calculator = new Calculator());
 
     it('should return 5 when added 3 and 2', () =>
     {
-        calc.input(3);
-        calc.operation(Operation.ADD);
-        calc.input(2);
+        calculator.input(3);
+        calculator.operation(Operation.ADD);
+        calculator.input(2);
         
-        expect(calc.result).to.equal(5);
+        expect(calculator.result).to.equal(5);
     });
 
     it('should return 1 when subtracted 3 and 2', () =>
     {
-        calc.input(3);
-        calc.operation(Operation.SUB);
-        calc.input(2);
+        calculator.input(3);
+        calculator.operation(Operation.SUB);
+        calculator.input(2);
         
-        expect(calc.result).to.equal(1);
+        expect(calculator.result).to.equal(1);
     });
 
     it('should return 6 when multiplied 3 and 2', () =>
     {
-        calc.input(2);
-        calc.operation(Operation.MUL);
-        calc.input(3);
+        calculator.input(2);
+        calculator.operation(Operation.MUL);
+        calculator.input(3);
         
-        expect(calc.result).to.equal(6);
+        expect(calculator.result).to.equal(6);
     });
 
     it('should return 1 when divided 3 and 3', () =>
     {
-        calc.input(3);
-        calc.operation(Operation.DIV);
-        calc.input(3);
+        calculator.input(3);
+        calculator.operation(Operation.DIV);
+        calculator.input(3);
         
-        expect(calc.result).to.equal(1);
+        expect(calculator.result).to.equal(1);
     });
 
     it('should throw "Division by 0" error', () =>
     {    
-        calc.input(3);
-        calc.operation(Operation.DIV);
+        calculator.input(3);
+        calculator.operation(Operation.DIV);
 
-        expect(calc.input.bind(calc, 0)).to.throw('Cannot divide by 0. Insert a different value.');
+        expect(calculator.input.bind(calculator, 0)).to.throw('Cannot divide by 0. Insert a different value.');
     });
 
     it('should throw "Pending operation" error when is tried to get the result before the an operation executed', () =>
     {    
-        calc.input(3);
-        calc.operation(Operation.SUB);
+        calculator.input(3);
+        calculator.operation(Operation.SUB);
 
-        expect(() => calc.result).to.throw('Pending operation... Insert a value.');
+        expect(() => calculator.result).to.throw('Pending operation... Insert a value.');
     });
 
     it('should throw "Pending operation" error when is tried to change the operation type before the operation itself', () =>
     {    
-        calc.input(3);
-        calc.operation(Operation.SUB);
+        calculator.input(3);
+        calculator.operation(Operation.SUB);
 
-        expect(calc.operation.bind(calc, Operation.ADD)).to.throw('Pending operation... Insert a value.');
+        expect(calculator.operation.bind(calculator, Operation.ADD)).to.throw('Pending operation... Insert a value.');
     });
 
     it('should throw "Unknown operation." error when is tried to set an uknown value as operation (not corresponding to any element decalred in the Operation enum)', () =>
     {    
-        calc.operation(99);
+        calculator.operation(99);
 
-        expect(() => calc.input(3)).to.throw('Unknown operation.');
+        expect(() => calculator.input(3)).to.throw('Unknown operation.');
     });
 });
 
@@ -85,8 +85,8 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
 
     beforeEach((done) => 
     {
-        server.start(done);
         web = new Webpage();
+        server.start(done);
     });
 
     afterEach((done) => server.stop(done));
@@ -103,10 +103,10 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").then(res => 
+        web.getWebpage("http://localhost:9000/page").then(response => 
         {
             done();
-            expect(res).to.equal('<!DOCTYPE><html><html><head></head><body></body></html>');
+            expect(response).to.equal('<!DOCTYPE><html><html><head></head><body></body></html>');
         });
     });
 
@@ -120,9 +120,9 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").catch((err) => 
+        web.getWebpage("http://localhost:9000/page").catch((error) => 
         {
-            expect(err.statusCode).to.equal(404);
+            expect(error.statusCode).to.equal(404);
             done();
         });
     });
