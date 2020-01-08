@@ -39,7 +39,6 @@ export default class Client
                 }
             };
 
-
             this._send_message(registration_message).then(() => 
             {
                 resolve(this._server);
