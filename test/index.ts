@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 
 describe('Level 2 - Unit Testing (Calculator)', () =>
 {
-    let calc : Calculator;
+    let calc: Calculator;
 
     beforeEach(() => calc = new Calculator());
 
@@ -81,17 +81,17 @@ describe('Level 2 - Unit Testing (Calculator)', () =>
 describe('Level 2 - Unit Testing (Webpage)', () => 
 {
     const server = new ServerMock({ host: 'localhost', port: 9000 });
-    let web : Webpage;
+    let web: Webpage;
 
-    beforeEach(done => 
+    beforeEach((done) => 
     {
         server.start(done);
         web = new Webpage();
     });
 
-    afterEach(done => server.stop(done));
+    afterEach((done) => server.stop(done));
 
-    it('should return the html of the page requested from the mocked webserver', done => 
+    it('should return the html of the page requested from the mocked webserver', (done) => 
     {
         server.on({
             method: 'GET',
@@ -106,12 +106,11 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
         web.getWebpage("http://localhost:9000/page").then(res => 
         {
             done();
-
             expect(res).to.equal('<!DOCTYPE><html><html><head></head><body></body></html>');
         });
     });
 
-    it('should return status code 404 from the mocked webserver from the requested page', done => 
+    it('should return status code 404 from the mocked webserver from the requested page', (done) => 
     {
         server.on({
             method: 'GET',
@@ -121,14 +120,14 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
             }
         });
 
-        web.getWebpage("http://localhost:9000/page").catch(err => 
+        web.getWebpage("http://localhost:9000/page").catch((err) => 
         {
             expect(err.statusCode).to.equal(404);
             done();
         });
     });
 
-    it('should just fail the promise of saveWebpage', done =>
+    it('should just fail the promise of saveWebpage', (done) =>
     {
         const path = 'static/page.html',
               saveFile = sinon.stub(web, "saveWebpage").rejects();
@@ -149,7 +148,7 @@ describe('Level 2 - Unit Testing (Webpage)', () =>
         });
     });
 
-    it('should just check if getWebpage is called once with saveWebpage', done =>
+    it('should just check if getWebpage is called once with saveWebpage', (done) =>
     {
         const path = 'static/page.html',
               spySave = sinon.spy(web, "getWebpage"); // makes more sense if we could spy on _writeFile but is private, i didn't find a way sadly
