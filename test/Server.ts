@@ -142,6 +142,7 @@ describe('Server', () =>
                 {
                     expect(send_spy.called).to.be.true;
                     expect(send_spy.calledWithMatch(JSON.stringify(request), sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
+                    
                 });
             }).then(() =>
             {
