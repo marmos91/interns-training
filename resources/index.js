@@ -8,30 +8,28 @@ const transfer_text = document.querySelector('#transfer-text');
 const port_inputtext = document.querySelector('#port-input');
 const ip_inputtext = document.querySelector('#ip-input');
 
-file_chooser_button
-    .addEventListener('click', () => 
+file_chooser_button.addEventListener('click', () => 
+{
+    ipcRenderer.send('get-file');
+});
+
+file_sender_button.addEventListener('click', () => 
+{
+    const ip = ip_inputtext.value;
+    const port = Number(port_inputtext.value);
+
+    if (ip === '' || port === 0) 
     {
-        ipcRenderer.send('get-file');
-    });
+        dialog.showMessageBox({
+            type: 'warning',
+            message: 'Please insert IP and port of the destination first'
+        });
+        return;
+    }
 
-file_sender_button
-    .addEventListener('click', () => 
-    {
-        const ip = ip_inputtext.value;
-        const port = Number(port_inputtext.value);
-
-        if (ip === '' || port === 0) 
-        {
-            dialog.showMessageBox({
-                type: 'warning',
-                message: 'Please insert IP and port of the destination first'
-            });
-            return;
-        }
-
-        ipcRenderer.send('send-file', { ip, port });
-        transfer_text.textContent = 'Transfer in progress...';
-    });
+    ipcRenderer.send('send-file', { ip, port });
+    transfer_text.textContent = 'Transfer in progress...';
+});
 
 ipcRenderer.on('enable-sender-button', () =>
 {

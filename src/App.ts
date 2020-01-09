@@ -24,7 +24,8 @@ export class App
                 properties: ['openFile']
             }).then((result) =>
             {
-                if(result.canceled) {
+                if(result.canceled) 
+                {
                     this._web.send('disable-sender-button');
                     return;
                 }
