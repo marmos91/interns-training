@@ -7,35 +7,35 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <div class="container is-centered">
-            <h1 class="title">
+        <div class="container">
+            <h1 class="title has-text-centered">
                 Welcome to Electron
             </h1>
 
-            <p class="subtitle">
+            <p class="subtitle has-text-centered">
                 Fill the form below to transfer a file
             </p>
 
-            <div class="columns is-gapless is-centered">
-                <div class="column is-one-third">
+            <div class="inputs is-gapless">
+                <div class="input-row">
                     <div class="control has-icons-left">
-                        <input class="input is-small" placeholder="IP Address">
+                        <input class="input is-small" placeholder="IP Address" id="ip-input">
                         <span class="icon is-small is-left">
                             <i class="fas fa-location-arrow"></i>
                         </span>
                     </div>
                 </div>
 
-                <div class="column is-one-third">
+                <div class="input-row">
                     <div class="control has-icons-left">
-                        <input class="input is-small" type="number" placeholder="Port">
+                        <input class="input is-small" type="number" placeholder="Port" id="port-input">
                         <span class="icon is-small is-left">
                             <i class="fas fa-circle"></i>
                         </span>
                     </div>
                 </div>
 
-                <div class="column is-one-third">
+                <div class="input-row is-one-fifth">
                     <div class="file is-small">
                         <label class="file-label">
                             <input class="file-input" id="file-chooser-button">
@@ -52,17 +52,19 @@
                 </div>
             </div>
 
+            <div class="button-container">
             <button class="button is-small is-link" id="file-sender-button" disabled>
                 <span>
                     Send
                 </span>
             </button>
+            </div>
 
-            <p class="is-centered">
-                <span>Server is listening on port <span id="port">0</span></span>
+            <p class="has-text-centered">
+                <span>Server is listening on port <span id="port-text">0</span></span>
             </p>
-            <p>
-                <span id="transfer_result">Waiting...</span>
+            <p class="has-text-centered">
+                <span id="transfer-text"></span>
             </p>
         </div>
 

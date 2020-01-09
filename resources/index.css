@@ -7101,15 +7101,27 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+html {
+  height: 100%; }
+
 body {
-  display: flex;
-  flex: 1;
-  height: 562px;
-  width: 800px;
-  background-color: #FCDC47;
-  overflow: auto;
-  overflow-y: hidden;
-  padding-top: 10%; }
+  padding-top: 10%;
+  height: 100%;
+  width: 100%;
+  background-color: #FCDC47; }
 
 #file-sender-button {
-  margin-bottom: 25px; }
+  margin-bottom: 25px;
+  margin-right: 60px; }
+
+.input {
+  width: 170px; }
+
+.inputs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px; }
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; }
