@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div class="container is-centered">
+            <h1 class="title">
+                Welcome to Electron
+            </h1>
+
+            <p class="subtitle">
+                Fill the form below to transfer a file
+            </p>
+
+            <div class="columns is-gapless is-centered">
+                <div class="column is-one-third">
+                    <div class="control has-icons-left">
+                        <input class="input is-small" placeholder="IP Address">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-location-arrow"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="column is-one-third">
+                    <div class="control has-icons-left">
+                        <input class="input is-small" type="number" placeholder="Port">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-circle"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="column is-one-third">
+                    <div class="file is-small">
+                        <label class="file-label">
+                            <input class="file-input" id="file-chooser-button">
+                            <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="button is-small is-link" id="file-sender-button" disabled>
+                <span>
+                    Send
+                </span>
+            </button>
+
+            <p class="is-centered">
+                <span>Server is listening on port <span id="port">0</span></span>
+            </p>
+            <p>
+                <span id="transfer_result">Waiting...</span>
+            </p>
+        </div>
+
+        <script src="./index.js"></script>
+    </body>
+</html>

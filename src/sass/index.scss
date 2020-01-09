@@ -1,0 +1,21 @@
+@charset "utf-8";
+@import "../../node_modules/bulma/bulma.sass";
+
+$yellow: #FCDC47;
+
+body 
+{
+    display: flex;
+    flex: 1;
+    height: 562px;
+    width: 800px;
+    background-color: $yellow;
+    overflow: auto;
+    overflow-y: hidden;
+    padding-top: 10%;
+}
+
+#file-sender-button
+{
+    margin-bottom: 25px;
+}

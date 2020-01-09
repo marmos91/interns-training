@@ -4,7 +4,8 @@
   "description": "Hi **${name}**, and welcome to the **Cubbit** training repository. Here you will find all the guides and exercises to master our technologies and to become a true **Javascript ninja**. In the next sections, the main concepts of git and javascript will be generally explained so you can start to explore the repository and its contents independently.",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node_modules/.bin/electron build/index.js"
+    "css-build": "node-sass --omit-source-map-url src/sass/index.scss resources/index.css",
+    "start": "tsc && npm run css-build && electron build/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,11 @@
   "homepage": "https://github.com/cubbit/interns-training#readme",
   "dependencies": {
     "@types/node": "^8.0.46",
-    "bulma": "^0.6.0",
-    "electron": "^1.7.9"
+    "global": "^4.4.0"
+  },
+  "devDependencies": {
+    "bulma": "^0.8.0",
+    "electron": "^7.1.8",
+    "node-sass": "^4.13.0"
   }
 }
