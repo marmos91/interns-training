@@ -1,4 +1,3 @@
-// renderer process, for example app/renderer.js
 const {ipcRenderer} = require('electron');
 const {dialog} = require('electron').remote;
 
