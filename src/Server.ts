@@ -33,6 +33,7 @@ export default class Server
         this._socket.on('message', (message) => 
         {
             let message_received: IMessage;
+
             try 
             {
                 message_received = JSON.parse(message.toString());
@@ -42,7 +43,8 @@ export default class Server
                 return;
             }
 
-            switch(message_received.type) {
+            switch(message_received.type) 
+            {
                 case MessageType.REGISTRATION:
                     this._register_client(message_received.source.id, message_received.source.username);
                     break;
@@ -52,7 +54,7 @@ export default class Server
                     break;
 
                 case MessageType.MESSAGE:
-                    if(message_received.destination == null)
+                    if(typeof message_received.destination === 'undefined')
                         throw new Error("Destination client not specified - abort");
 
                     const destination: Address = this._clients[message_received.destination].address;
@@ -77,7 +79,7 @@ export default class Server
 
     shutdown(callback?: () => void) 
     {
-        if (this._socket == null) 
+        if(typeof this._socket === 'undefined') 
             return callback ? callback() : null;
         
         this._socket.close(callback);
@@ -85,7 +87,6 @@ export default class Server
 
     private _register_client(id: number, username: string): void
     {
-        // Check if client already exist
         if(id in this._clients)
             throw new Error(`Client ${id} already exist`);
 
@@ -109,7 +110,7 @@ export default class Server
 
     private _send_message(destination: Address, message: string): void
     {
-        const buffer: string = message;//JSON.stringify(message);
+        const buffer: string = message;
 
         this._socket.send(buffer, 0, buffer.length, destination.port, destination.ip, (error) =>
         {
@@ -124,7 +125,7 @@ export default class Server
         {
             const client: IClient = this._clients[client_id];
             
-            if(message.source.id == client.id) 
+            if(message.source.id === client.id) 
                 continue;
             
             message.destination = client.id;

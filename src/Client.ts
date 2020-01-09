@@ -14,7 +14,7 @@ export default class Client
     {
         this._id = id;
         this._username = username;
-        this._source =  {id, username};
+        this._source = {id, username};
     }
 
     connect(server?: Address): Promise<Address> 
@@ -46,7 +46,7 @@ export default class Client
         });
     }
 
-    disconnect(): Promise<any> 
+    disconnect(): Promise<void> 
     {
         const message: IMessage = {
             type: MessageType.LEAVE,
@@ -60,7 +60,7 @@ export default class Client
         });
     }
 
-    send(msg: string, to: number): Promise<any> 
+    send(msg: string, to: number): Promise<void> 
     {
         const message: IMessage = {
             type: MessageType.MESSAGE,
@@ -72,7 +72,7 @@ export default class Client
         return this._send_message(message);
     }
 
-    broadcast(msg: string): Promise<any>
+    broadcast(msg: string): Promise<void>
     {
         const message: IMessage = {
             type: MessageType.BROADCAST,
@@ -83,9 +83,9 @@ export default class Client
         return this._send_message(message);
     }
 
-    private _send_message(message: IMessage, callback?) 
+    private _send_message(message: IMessage, callback?): Promise<void>
     {
-        return new Promise<any>((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             let buffer: string = JSON.stringify(message);
 
             this._socket.send(buffer, 0, buffer.length, this._server.port, this._server.ip, (error) =>
