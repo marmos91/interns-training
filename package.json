@@ -1,0 +1,16 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "Cubbit intern training program",
+  "main": "index.js",
+  "repository": "git@github.com:lucamerighi/interns-training.git",
+  "author": "Luca Merighi <luca.merighi93@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  }
+}
