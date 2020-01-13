@@ -32,6 +32,7 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
+    "@types/chai": "^4.2.7",
     "@types/node": "^8.0.46"
   }
 }
