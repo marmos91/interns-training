@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/node": "^8.0.46",
     "fs-extra": "^4.0.2",
+    "mock-http-server": "^1.4.1",
     "request": "^2.83.0"
   },
   "devDependencies": {

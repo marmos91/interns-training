@@ -1,6 +1,8 @@
-import { Calculator, Operation } from "../src/Calculator";
-import { Webpage } from "../src/Webpage";
-import { expect, assert } from "chai";
+import {expect} from 'chai';
+import * as ServerMock from 'mock-http-server';
+
+import {Calculator, Operation} from '../src/Calculator';
+import {Webpage} from '../src/Webpage';
 
 describe('Level 2 - Unit', () =>
 {
@@ -67,19 +69,78 @@ describe('Level 2 - Unit', () =>
         {
             calculator.input(5);
             calculator.operation(Operation.DIV);
-            expect(calculator.result).to.throw('Pending operation... Insert a value.');
+            expect(() => calculator.result).to.throw('Pending operation... Insert a value.');
         });
     });
 
-    // describe('WebPage', () =>
-    // {
-    //     let webPage: Webpage;
+    describe('WebPage', () =>
+    {
+        let webPage: Webpage;
+        let server = new ServerMock({ host: "localhost", port: 9000 });
 
-    //     beforeEach(() => webPage = new Webpage());
+        beforeEach((done) => 
+        {
+            server.start(done);
+            webPage = new Webpage();
+        });
 
+        afterEach(done => server.stop(done));
 
+        it('should return html boilerplate', done =>
+        {
+            server.on({
+                method: 'GET',
+                path: '/home',
+                reply: {
+                    status: 200,
+                    headers: { "content-type": "application/json" },
+                    body: '<!DOCTYPE html><html><head></head><body></body></html>'
+                }
+            });
 
-    // });
+            webPage.getWebpage('http://localhost:9000/home').then((response) => 
+            {
+                expect(response).to.equal('<!DOCTYPE html><html><head></head><body></body></html>');
+                done();
+            });
+        });
 
+        it('should return error on non 200 status', done =>
+        {
+            server.on({
+                method: 'GET',
+                path: '/home',
+                reply: {
+                    status: 300,
+                    headers: { "content-type": "application/json" },
+                    body: '<!DOCTYPE html><html><head></head><body></body></html>'
+                }
+            });
 
+            webPage.getWebpage('http://localhost:9000/home').catch((error) => 
+            {
+                expect(error.statusCode).to.equal(300);
+                done();
+            });
+        });
+
+        it('should save webpage to file', done =>
+        {
+            server.on({
+                method: 'GET',
+                path: '/home',
+                reply: {
+                    status: 200,
+                    headers: { "content-type": "application/json" },
+                    body: '<!DOCTYPE html><html><head></head><body></body></html>'
+                }
+            });
+
+            webPage.saveWebpage('http://localhost:9000/home', 'index.html').then((response) => 
+            {
+                expect(response).to.equal('index.html');
+                done();
+            });
+        });
+    });
 });
