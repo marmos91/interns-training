@@ -1,7 +1,8 @@
 import {expect} from 'chai';
 import * as dgram from 'dgram';
 import * as sinon from 'sinon';
-import {Client, Server} from '../src/index';
+
+import {Client, Server} from '../src';
 import {IMessage, MessageType} from '../src/Interfaces';
 
 const default_port = 8000;
@@ -108,7 +109,7 @@ describe('Server', () =>
                 }, 500);
             }).catch((error) =>
             {
-                if (error)
+                if(error)
                     console.error(error);
 
                 expect(error).to.be.undefined;
@@ -141,14 +142,14 @@ describe('Server', () =>
                 return client1.send('Hello', 2).then(() =>
                 {
                     expect(send_spy.called).to.be.true;
-                    expect(send_spy.calledWithMatch(JSON.stringify(request), sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
+                    expect(send_spy.calledWithMatch(request.payload, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
                 });
             }).then(() =>
             {
                 return client1.disconnect().then(() => client2.disconnect()).then(() => server.shutdown(done));
             }).catch((error) =>
             {
-                if (error)
+                if(error)
                     console.error(error);
 
                 expect(error).to.be.undefined;
@@ -187,7 +188,7 @@ describe('Server', () =>
                 return client1.disconnect().then(() => client2.disconnect()).then(() => client3.disconnect()).then(() => server.shutdown(done));
             }).catch((error) =>
             {
-                if (error)
+                if(error)
                     console.error(error);
 
                 expect(error).to.be.undefined;
@@ -233,7 +234,7 @@ describe('Server', () =>
                 });
             }).catch((error) =>
             {
-                if (error)
+                if(error)
                     console.error(error);
 
                 expect(error).to.be.undefined;

@@ -1,7 +1,8 @@
 import {expect} from 'chai';
 import * as dgram from 'dgram';
 import * as sinon from 'sinon';
-import {Client, Server} from '../src/index';
+
+import {Client, Server} from '../src';
 import {Address, IMessage, MessageType} from '../src/Interfaces';
 
 const server_endpoint_default = {
@@ -36,7 +37,7 @@ describe('Client', () =>
             return client.disconnect().then(() => server.shutdown(done));
         }).catch((error) =>
         {
-            if (error)
+            if(error)
                 console.error(error);
 
             expect(error).to.be.undefined;
@@ -49,13 +50,13 @@ describe('Client', () =>
     {
         let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
 
-        client.connect({ip: 'api.server.net', port: 8888}).then((connected_server: Address) =>
+        client.connect({ ip: 'api.server.net', port: 8888 }).then((connected_server: Address) =>
         {
             expect(dgram_stub.calledWith(sinon.match.any, sinon.match.any, sinon.match.any, 8888, 'api.server.net')).to.be.true;
-            expect(connected_server).to.be.deep.equal({ip: 'api.server.net', port: 8888});
+            expect(connected_server).to.be.deep.equal({ ip: 'api.server.net', port: 8888 });
         }).then(() => server.shutdown(done)).catch((error) =>
         {
-            if (error)
+            if(error)
                 console.error(error);
 
             expect(error).to.be.undefined;
@@ -90,7 +91,7 @@ describe('Client', () =>
             });
         }).then(() => server.shutdown(done)).catch((error) =>
         {
-            if (error)
+            if(error)
                 console.error(error);
 
             expect(error).to.be.undefined;
@@ -125,7 +126,7 @@ describe('Client', () =>
             });
         }).then(() => server.shutdown(done)).catch((error) =>
         {
-            if (error)
+            if(error)
             {
                 server.shutdown(done);
                 console.error(error);
@@ -139,7 +140,6 @@ describe('Client', () =>
     it('should broadcast a message', (done) =>
     {
         let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
-
         client.connect().then(() =>
         {
             let request: IMessage = {
@@ -161,7 +161,7 @@ describe('Client', () =>
             });
         }).then(() => server.shutdown(done)).catch((error) =>
         {
-            if (error)
+            if(error)
             {
                 server.shutdown(done);
                 console.error(error);
@@ -172,7 +172,7 @@ describe('Client', () =>
         });
     });
 
-    it('should register the "message" callback and print the output', (done) =>
+    it.only('should register the "message" callback and print the output', (done) =>
     {
         let socket_stub = sandbox.spy(dgram.Socket.prototype, 'on');
 
@@ -187,7 +187,7 @@ describe('Client', () =>
             });
         }).then(() => server.shutdown(done)).catch((error) =>
         {
-            if (error)
+            if(error)
             {
                 server.shutdown(done);
                 console.error(error);
