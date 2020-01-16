@@ -97,7 +97,6 @@ export default class Server
             console.log('message received from server');
             console.log(message.payload);
 
-
             if(message.payload && message.destination)
             {
                 this._socket.send(message.payload, 0, message.payload.length, message.destination,

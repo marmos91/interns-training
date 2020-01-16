@@ -1,5 +1,4 @@
 import * as dgram from 'dgram';
-import {resolve} from 'url';
 
 import {Address, IMessage, MessageType} from './Interfaces';
 
@@ -19,35 +18,35 @@ export default class Client
         this._socket.on('message', (msg, rinfo) => console.log(`message received: ${msg}`));
     }
 
-    connect = (server: Address = { ip: 'localhost', port: 8000 }): Promise<Address> => 
+    connect(server: Address = { ip: 'localhost', port: 8000 }): Promise<Address> 
     {
         this._server = server;
         return this._send_message(MessageType.REGISTRATION).then(() => server)
             .catch(err => { throw new Error; });
     }
 
-    disconnect = (): Promise<void> => 
+    disconnect(): Promise<void> 
     {
         return new Promise((resolve, reject) =>
         {
             this._send_message(MessageType.LEAVE);
             this._socket.close();
-            this._socket = dgram.createSocket('udp4');
+            this._socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
             return resolve();
         });
     }
 
-    send = (message: string, to: number): Promise<void> => 
+    send(message: string, to: number): Promise<void> 
     {
         return this._send_message(MessageType.MESSAGE, message, to);
     }
 
-    broadcast = (message: string): Promise<void> =>
+    broadcast(message: string): Promise<void>
     {
         return this._send_message(MessageType.BROADCAST, message);
     }
 
-    private _send_message = (type: MessageType, message?: string, to?: number): Promise<void> => 
+    private _send_message(type: MessageType, message?: string, to?: number): Promise<void> 
     {
         console.log(`sending message ${MessageType[type]}`);
         return new Promise((resolve, reject) =>
