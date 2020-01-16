@@ -48,7 +48,6 @@ export default class Client
 
     private _send_message(type: MessageType, message?: string, to?: number): Promise<void> 
     {
-        console.log(`sending message ${MessageType[type]}`);
         return new Promise((resolve, reject) =>
         {
             const to_send: IMessage = {
