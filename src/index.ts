@@ -8,6 +8,7 @@ export class Challenge
         {
             if(n % 3 == 0)
                 output += "fizz";
+            
             if(n % 5 == 0)
                 output += "buzz";
             else if(n % 3 != 0)
