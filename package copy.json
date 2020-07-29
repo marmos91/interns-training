@@ -1,0 +1,46 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "Cubbit interns training",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubbit/interns-training.git"
+  },
+  "keywords": [
+    "cubbit",
+    "training",
+    "node",
+    "typescript"
+  ],
+  "author": "Alessio Paccoia <alessio.paccoia@cubbit.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cubbit/interns-training/issues"
+  },
+  "homepage": "https://github.com/cubbit/interns-training#readme",
+  "dependencies": {
+    "@types/node": "^8.10.62",
+    "fs-extra": "^4.0.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^2.2.48",
+    "@types/sinon": "^2.3.6",
+    "@types/supertest": "^2.0.10",
+    "chai": "^4.2.0",
+    "gulp": "^4.0.2",
+    "gulp-mocha": "^7.0.2",
+    "gulp-shell": "^0.6.3",
+    "gulpclass": "^0.2.0",
+    "jest": "^26.1.0",
+    "mocha": "^4.0.1",
+    "sinon": "^4.0.1",
+    "supertest": "^3.0.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^3.9.7"
+  }
+}
