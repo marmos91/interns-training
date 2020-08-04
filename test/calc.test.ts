@@ -1,48 +1,44 @@
 import {Calculator, Operation} from "../src/Calculator";
 
-var calc: Calculator;
-
-var n1: number, n2: number;
-n1 = 12;
-n2 = 13;
+let calc: Calculator;
 
 describe("Calculator", () =>
 {
 	beforeEach(() => calc = new Calculator());
 
-	test.each([[1, 2, 3], [4, -5, -1]])("Addition", (a, b, r) =>
+	test.each([[1, 2, 3], [4, -5, -1]])("Addition", (addend1, addend2, sum) =>
 	{
-		calc.input(a);
+		calc.input(addend1);
 		calc.operation(Operation.ADD);
-		calc.input(b);
+		calc.input(addend2);
 
-		expect(calc.result).toBe(r);
+		expect(calc.result).toBe(sum);
 	});
 
-	test("Subtraction", () =>
+	test.each([[10, 2, 8], [2, 6, -4]])("Subtraction", (minuend, subtrahend, difference) =>
 	{
-		calc.input(n1);
+		calc.input(minuend);
 		calc.operation(Operation.SUB);
-		calc.input(n2);
+		calc.input(subtrahend);
 
-		expect(calc.result).toBe(n1 - n2);
+		expect(calc.result).toBe(difference);
 	});
   
-	test("Moltiplication", () =>
+	test.each([[2, 3, 6], [-7, 2, -14]])("Moltiplication", (multiplicand, multiplier, product) =>
 	{
-		calc.input(n1);
+		calc.input(multiplicand);
 		calc.operation(Operation.MUL);
-		calc.input(n2);
+		calc.input(multiplier);
 
-		expect(calc.result).toBe(n1 * n2);
+		expect(calc.result).toBe(product);
 	});
 
-	test("Division", () =>
+	test.each([[12, 3, 4], [39, 3, 13]])("Division", (dividend, divisor, quotient) =>
 	{
-		calc.input(n1);
+		calc.input(dividend);
 		calc.operation(Operation.DIV);
-		calc.input(n2);
+		calc.input(divisor);
 
-		expect(calc.result).toBe(n1 / n2);
+		expect(calc.result).toBe(quotient);
 	});
 });

@@ -2,7 +2,7 @@ import {Webpage} from "../src/Webpage";
 import * as Server from "mock-http-server"; 
 import * as fs from "fs";
 
-var web: Webpage = new Webpage;
+const web: Webpage = new Webpage;
 var server: Server = new Server(
 {
 	host: "localhost",
@@ -17,33 +17,20 @@ describe("Webpage", () =>
 
 	test("Reciving a page", async () =>
 	{
-		server.on(
-		{
-			path: "/resource",
-			reply:
-			{
-				body: "Hello World!"
-			}
-		});
-		let page = await web.getWebpage(url);
+		server.on({path: "/resource", reply: {body: "Hello World!"}});
 
-		expect(page).toBe("Hello World!");
+		const getted_page = await web.getWebpage(url);
+
+		expect(getted_page).toBe("Hello World!");
 	});
 
-	test("Saveing a page", async () =>
+	test("Saving a page", async () =>
 	{
-		server.on(
-		{
-			path: "/resource",
-			reply:
-			{
-				body: "Another Hello World!"
-			}
-		});
+		server.on({path: "/resource", reply: {body: "Another Hello World!"}});
+
 		await web.saveWebpage(url, "./mypage");
+		const saved_page: string = fs.readFileSync("./mypage", "utf8");
 
-		let page: string = fs.readFileSync("./mypage", "utf8");
-
-		expect(page).toBe("Another Hello World!");
+		expect(saved_page).toBe("Another Hello World!");
 	});
 });
