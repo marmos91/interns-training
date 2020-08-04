@@ -19,9 +19,9 @@ describe("Webpage", () =>
 	{
 		server.on({path: "/resource", reply: {body: "Hello World!"}});
 
-		const getted_page = await web.getWebpage(url);
+		const received_page = await web.getWebpage(url);
 
-		expect(getted_page).toBe("Hello World!");
+		expect(received_page).toBe("Hello World!");
 	});
 
 	test("Saving a page", async () =>
