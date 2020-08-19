@@ -3,12 +3,8 @@ import * as Server from "mock-http-server";
 import * as fs from "fs";
 
 const web: Webpage = new Webpage;
-var server: Server = new Server(
-{
-	host: "localhost",
-	port: 9000
-});
-var url: string = "http://localhost:9000/resource";
+const server: Server = new Server({host: "localhost", port: 9000});
+const url: string = "http://localhost:9000/resource";
 
 describe("Webpage", () =>
 {
