@@ -1,10 +1,9 @@
 module.exports.say = function say(name) 
 {
-  let innerName = "world";
-  if (typeof name !== "undefined") 
-  {
-    innerName = name;
-  }
+    let innerName = "world";
 
-  return ["Hello ", innerName, "!"].join("");
+    if (typeof name !== "undefined") 
+        innerName = name;
+
+    return ["Hello ", innerName, "!"].join("");
 };
