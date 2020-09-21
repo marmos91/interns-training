@@ -1,9 +1,10 @@
-module.exports.say = function say(name) 
+module.exports.say = function say(name = "world") 
 {
-  var innerName = "world";
+  let innerName = "world";
   if (typeof name !== "undefined") 
-{
+  {
     innerName = name;
   }
+  
   return ["Hello ", innerName, "!"].join("");
 };
