@@ -4,6 +4,7 @@
         "outDir": "build/",
         "target": "es6",
         "experimentalDecorators": true,
+        "skipLibCheck": true,
         "typeRoots": [
             "node_modules/@types/"
         ]
