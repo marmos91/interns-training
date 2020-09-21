@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "target": "ES5",
+        "lib": [
+            "esnext"
+        ],
+        "outDir": "build"
+    },
+    "include": [
+        "src/**/*",
+        "test/**/*"
+    ]
+}
