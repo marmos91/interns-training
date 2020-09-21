@@ -5,5 +5,9 @@
   "main": "src/index.js",
   "repository": "git@github.com:MaximKalinin/interns-training.git",
   "author": "maxim.kalinin@cubbit.io",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3"
+  }
 }
