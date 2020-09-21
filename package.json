@@ -1,0 +1,9 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "description": "level 0 task",
+  "main": "src/index.js",
+  "repository": "git@github.com:MaximKalinin/interns-training.git",
+  "author": "maxim.kalinin@cubbit.io",
+  "license": "MIT"
+}
