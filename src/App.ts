@@ -4,8 +4,8 @@ import * as fs from 'fs';
 
 interface IClient
 {
-    ip: string,
-    port: number
+    ip: string;
+    port: number;
 }
 
 export class App 
@@ -34,6 +34,9 @@ export class App
                 this._chosen_file_path = result.filePaths[0];
                 this._web.send('enable-sender-button');
                 this._web.send('set-filepath', this._chosen_file_path);
+            }).catch(_ => 
+            {
+                this._web.send('disable-sender-button');
             });
         });
 
