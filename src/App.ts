@@ -20,8 +20,7 @@ export class App
 
         ipcMain.on('get-file', () => 
         {
-            dialog.showOpenDialog(
-            {
+            dialog.showOpenDialog({
                 properties: ['openFile']
             }).then((result) =>
             {
@@ -53,8 +52,7 @@ export class App
                 {
                     if (error) 
                     {
-                        dialog.showMessageBox(
-                        {
+                        dialog.showMessageBox({
                             type: 'error',
                             message: 'Error reading the file, choose another one'
                         });
@@ -72,8 +70,7 @@ export class App
                 });
             }).catch(() =>
             {
-                dialog.showMessageBox(
-                {
+                dialog.showMessageBox({
                     type: 'error',
                     message: 'Please insert a valid destination address'
                 });
@@ -89,11 +86,12 @@ export class App
         });
     }
 
-    listen() 
+    public listen(): void
     {
         this._server = net.createServer((socket) =>
         {
             const file_chunks: Buffer[] = [];
+
             socket.on('data', (data) =>
             {
                 file_chunks.push(data);
@@ -113,6 +111,7 @@ export class App
         return new Promise((resolve, reject) =>
         {
             let socket: net.Socket;
+            
             const timeout = setTimeout(() =>
             {
                 reject();
