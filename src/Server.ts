@@ -32,7 +32,7 @@ class Server
         this._socket = undefined;
         this._port = undefined;
         this._clients = undefined;
-    };
+    }
     private _onMessage(buffer: Buffer, rinfo: dgram.AddressInfo) 
     {
         const {address, port} = rinfo;
@@ -54,14 +54,14 @@ class Server
             default:
                 break;
         }
-    };
+    }
     private _addClient(message: IMessage, address: Address) 
     {
         const {source: {id, username}} = message;
         if (this._clients[id]) 
             return;
         this._clients[id] = {id, username, address};
-    };
+    }
     private _sendMessage(message: IMessage)
     {
         const {payload, destination} = message;
@@ -70,11 +70,11 @@ class Server
             return;
         const {address: {ip, port}} = client;
         this._socket.send(payload, port, ip);
-    };
+    }
     private _broadcast(message: IMessage) 
     {
         const {payload} = message;
-        Object.keys(this._clients).map(key => 
+        Object.keys(this._clients).forEach(key => 
         {
             this._sendMessage({...message, destination: +key});
         });
