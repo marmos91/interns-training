@@ -1,26 +1,29 @@
 import * as dgram from 'dgram';
 import {Address, IMessage, MessageType} from './Interfaces';
 
-export default class 
+class Client
 {
     private _id: number;
     private _username: string;
     private _socket: dgram.Socket;
     private _server: Address;
+
     constructor(id: number, username: string) 
     {
         this._id = id;
         this._username = username;
     }
-    async connect(server: Address = {ip: 'localhost', port: 8000}): Promise<Address>
+
+    connect(server: Address = {ip: 'localhost', port: 8000}): Promise<Address>
     {
         const {port, ip} = server;
+
         this._server = server;
         this._socket = dgram.createSocket("udp4");
 
-        this._socket.on('message', this._messageGet);
+        this._socket.on('message', this._message_get);
 
-        const registrationMessage: IMessage =
+        const registration_message: IMessage =
         {
             type: MessageType.REGISTRATION,
             source: 
@@ -30,16 +33,19 @@ export default class
             }
         };
 
-        await new Promise(resolve => this._socket.send(JSON.stringify(registrationMessage), port, ip, resolve));
-
-        return Promise.resolve(server);
+        return new Promise(resolve => 
+            this._socket.send(JSON.stringify(registration_message), port, ip, () => resolve(server))
+        );
     }
-    async send(message: string, to: number): Promise<any>
+
+    send(message: string, to: number): Promise<void>
     {
-        if (!this._canSend())
+        if (!this._can_send())
             return Promise.resolve();
+
         const {port, ip} = this._server;
-        const messageObj: IMessage =
+
+        const message_obj: IMessage =
         {
             type: MessageType.MESSAGE,
             source: 
@@ -50,15 +56,18 @@ export default class
             payload: message,
             destination: to
         };
-        await new Promise(resolve => this._socket.send(JSON.stringify(messageObj), port, ip, resolve));
-        return Promise.resolve();
+
+        return new Promise(resolve => this._socket.send(JSON.stringify(message_obj), port, ip, () => resolve()));
     }
-    async broadcast(message: string): Promise<any>
+
+    broadcast(message: string): Promise<void>
     {
-        if (!this._canSend())
+        if (!this._can_send())
             return Promise.resolve();
+
         const {port, ip} = this._server;
-        const messageObj: IMessage =
+
+        const message_obj: IMessage =
         {
             type: MessageType.BROADCAST,
             source: 
@@ -68,15 +77,18 @@ export default class
             },
             payload: message
         };
-        await new Promise(resolve => this._socket.send(JSON.stringify(messageObj), port, ip, resolve));
-        return Promise.resolve();
+
+        return new Promise(resolve => this._socket.send(JSON.stringify(message_obj), port, ip, () => resolve()));
     }
-    async disconnect(): Promise<any> 
+
+    async disconnect(): Promise<void> 
     {
-        if (!this._canSend())
+        if (!this._can_send())
             return Promise.resolve();
+
         const {port, ip} = this._server;
-        const messageObj: IMessage =
+        
+        const message_obj: IMessage =
         {
             type: MessageType.LEAVE,
             source: 
@@ -85,18 +97,24 @@ export default class
                 username: this._username
             }
         };
-        await new Promise(resolve => this._socket.send(JSON.stringify(messageObj), port, ip, resolve));
+
+        await new Promise(resolve => this._socket.send(JSON.stringify(message_obj), port, ip, resolve));
+        
         this._socket = undefined;
         this._server = undefined;
 
         return Promise.resolve();
     }
-    private _messageGet(buffer: Buffer) 
+
+    private _message_get(buffer: Buffer): void
     {
         console.log(buffer.toString());
     }
-    private _canSend() 
+
+    private _can_send(): boolean
     {
-        return this._server && this._socket;
+        return Boolean(this._server && this._socket);
     }
 }
+
+export default Client;
