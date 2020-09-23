@@ -14,7 +14,7 @@ class Client
         this._username = username;
     }
 
-    connect(server: Address = {ip: 'localhost', port: 8000}): Promise<Address>
+    public connect(server: Address = {ip: 'localhost', port: 8000}): Promise<Address>
     {
         const {port, ip} = server;
 
@@ -38,7 +38,7 @@ class Client
         );
     }
 
-    send(message: string, to: number): Promise<void>
+    public send(message: string, to: number): Promise<void>
     {
         if (!this._can_send())
             return Promise.resolve();
@@ -60,7 +60,7 @@ class Client
         return new Promise(resolve => this._socket.send(JSON.stringify(message_obj), port, ip, () => resolve()));
     }
 
-    broadcast(message: string): Promise<void>
+    public broadcast(message: string): Promise<void>
     {
         if (!this._can_send())
             return Promise.resolve();
@@ -81,7 +81,7 @@ class Client
         return new Promise(resolve => this._socket.send(JSON.stringify(message_obj), port, ip, () => resolve()));
     }
 
-    async disconnect(): Promise<void> 
+    public async disconnect(): Promise<void> 
     {
         if (!this._can_send())
             return Promise.resolve();
