@@ -15,14 +15,14 @@ To pass the level you will need to:
 - Launch `npm test` in your terminal: the 2 tests **must fail**.
 
 ### Hello world
-Write a basic javascript object to expose a function `say`. The signature of the function must be
+Write a basic javascript module that expose a function `say`. The signature of the function must be
 
 `function say(name)`
 
 and must return alternatively:
 
 - the string `"Hello world!"` if nothing is passed as parameter
-- the string `"Hello ${name}"` if a name is passed as a parameter
+- the string `"Hello ${name}!"` if a name is passed as a parameter
 
 Try out your brand new application launching again `npm test`. When both the tests will pass correctly please make a pull request to get your code reviewed. 
 
