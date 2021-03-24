@@ -133,10 +133,6 @@ Even if **a strong knowledge of the terminal's commands is fundamental to master
 
 Select the one which suits you most and procede to the next section.
 
-### Git flow
-Git flow is an extension of git which allows to simplify the most common task in a development team as *creating new features*, *releasing new software*, etc...
-To do so it introduces some commands to best handle this situations. The commands are well explained in this **[guide](https://danielkummer.github.io/git-flow-cheatsheet/)**. Note that Sourcetree already ships with a basic version of *git flow* which can be enabled from the preferences pane. However, to use it from terminal you have to [install it](https://github.com/nvie/gitflow/wiki/Installation).
-
 ## Structure of this repository
 This repository will be structured as a multilevel game. Each branch will represent a level. The first level will assume zero knowledge of the environment and will start from ground level. **Since you pass each level the complexity of the exercises will increase**. These are the current available levels (*they will be updated during time*):
 
