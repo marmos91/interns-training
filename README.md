@@ -50,7 +50,7 @@ Solving the challenges in this repository, you will approximately learn each of 
 Since Node.js (and Javascript in general) is a very cutting-edge technology a new release is shipped almost every week. For this reason we encourage you to install `nvm`.  
 [NVM](https://github.com/creationix/nvm) (or, for windows machines [NVM](https://github.com/coreybutler/nvm-windows)) is a version manager for Node.js. It can help changing Node.js version quite simply. **Please refer to the corresponding repositories to install them**.
 
-In the Cubbit core team we are using the **7.10.1** version in production and we are planning to move to the **8.7.0**
+In the Cubbit core team we are using the **12.12.x**.
 
 #### NVM usage
 To download, compile and install the latest release of node, just type:
