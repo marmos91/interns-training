@@ -1,6 +1,6 @@
 # Cubbit training repository - Level 2
 
-Hi **${name}**, and welcome to the **Cubbit** training repository's **level 2**. Please refer to the repository [main branch](https://github.com/cubbit/interns-training#structure-of-this-repository) to major information about this repositories and about the rules.
+Hi **${name}**, and welcome to the **Cubbit** training repository's **level 2**. Please refer to the repository in the [main branch](https://github.com/cubbit/interns-training#structure-of-this-repository) to major information about this repository and the rules.
 
 ## Goals of the level
 Main goal of this level is to write tests in order to validate code.
