@@ -22,15 +22,13 @@
     "url": "https://github.com/cubbit/interns-training/issues"
   },
   "homepage": "https://github.com/cubbit/interns-training#readme",
-  "dependencies": {
-    "@types/node": "^8.0.46"
-  },
   "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/mocha": "^2.2.43",
-    "@types/sinon": "^2.3.6",
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
-    "sinon": "^4.0.1"
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^12.12.11",
+    "@types/sinon": "^9.0.11",
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0"
   }
 }
