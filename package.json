@@ -1,0 +1,26 @@
+{
+  "name": "my-package",
+  "description": "Hi **${name}**, and welcome to the **Cubbit** training repository's **level 0**. Please refer to the repository [main branch](https://github.com/cubbit/interns-training#structure-of-this-repository) to major information about this repository and the rules.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules\\.bin\\mocha test\\index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marko-Pyeshchyk/interns-training.git"
+  },
+  "author": "marko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marko-Pyeshchyk/interns-training/issues"
+  },
+  "homepage": "https://github.com/Marko-Pyeshchyk/interns-training#readme",
+  "dependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
+  }
+}
