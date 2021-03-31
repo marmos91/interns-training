@@ -8,14 +8,14 @@
   "version" "4.2.15"
 
 "@types/mocha@^2.2.43":
-  "integrity" "sha512-xNlAmH+lRJdUMXClMTI9Y0pRqIojdxfm7DHsIxoB2iTzu3fnPmSMEN8SsSx0cdwV36d02PWCWaDUoZPDSln+xw=="
-  "resolved" "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.43.tgz"
-  "version" "2.2.43"
+  "integrity" "sha512-nlK/iyETgafGli8Zh9zJVCTicvU3iajSkRwOh3Hhiva598CMqNJ4NcVCGMTGKpGpTYj/9R8RLzS9NAykSSCqGw=="
+  "resolved" "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.48.tgz"
+  "version" "2.2.48"
 
 "@types/node@^12.12.11":
-  "integrity" "sha512-sRVq8d+ApGslmkE9e3i+D3gFGk7aZHAT+G4cIpIEdLJYPsWiSPwcAnJEjddLQQDqV3Ra2jOclX/Sv6YrvGYiWA=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-12.20.6.tgz"
-  "version" "12.20.6"
+  "integrity" "sha512-gWL8VUkg8VRaCAUgG9WmhefMqHmMblxe2rVpMF86nZY/+ZysU+BkAp+3cz03AixWDSSz0ks5WX59yAhv/cDwFA=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-12.20.7.tgz"
+  "version" "12.20.7"
 
 "@ungap/promise-all-settled@1.1.2":
   "integrity" "sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q=="
@@ -73,9 +73,9 @@
   "version" "2.2.0"
 
 "brace-expansion@^1.1.7":
-  "integrity" "sha1-wHshHHyVLsH479Uad+8NHTmQopI="
-  "resolved" "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.8.tgz"
-  "version" "1.1.8"
+  "integrity" "sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA=="
+  "resolved" "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz"
+  "version" "1.1.11"
   dependencies:
     "balanced-match" "^1.0.0"
     "concat-map" "0.0.1"
@@ -280,9 +280,9 @@
     "wrappy" "1"
 
 "inherits@2":
-  "integrity" "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4="
-  "resolved" "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz"
-  "version" "2.0.3"
+  "integrity" "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="
+  "resolved" "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
+  "version" "2.0.4"
 
 "is-binary-path@~2.1.0":
   "integrity" "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw=="
