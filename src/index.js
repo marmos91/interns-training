@@ -1,8 +1,9 @@
-function say(name){
+function say(name)
+{
     if(name!=null)
-        return "Hello " + name + "!";
+        return 'Hello ' + name + '!';
     
-    return "Hello world!";
+    return 'Hello world!';
 }
 
 module.exports = {say}
