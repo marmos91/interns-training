@@ -6,4 +6,4 @@ function say(name)
     return 'Hello world!';
 }
 
-module.exports = {say}
+module.exports = {say};
