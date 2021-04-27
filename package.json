@@ -24,7 +24,8 @@
   "dependencies": {
     "@types/node": "^12.12.11",
     "fs-extra": "^9.1.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "yargs-parser": "^20.2.7"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
