@@ -1,21 +1,21 @@
 export class Challenge
 {
-    public buzz<Promise>(my_number: number)
+    public buzz<Promise>(input_number: number)
     {
         return new Promise((resolve, reject) =>
         {
-            let my_string: string = '';
+            let resolve_string: string = '';
 
-            if(my_number % 3 === 0)
-                my_string = 'fizz';
+            if(input_number % 3 === 0)
+                resolve_string = 'fizz';
 
-            if(my_number % 5 === 0)
-                my_string += 'buzz';
+            if(input_number % 5 === 0)
+                resolve_string += 'buzz';
 
-            if(my_string === '')
-                resolve(my_number);
+            if(resolve_string === '')
+                resolve(input_number);
             else    
-                resolve(my_string);
+                resolve(resolve_string);
         });
     }
 }
