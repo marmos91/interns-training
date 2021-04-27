@@ -1,8 +1,5 @@
-function say(name)
+function say(name = 'world')
 {
-    if(name === undefined)
-        return 'Hello world!';
-    else
         return 'Hello ' + name + '!';
 }
 
