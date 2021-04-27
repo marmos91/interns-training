@@ -1,5 +1,3 @@
-
-
 function say(name)
 {
     if(name == undefined)
