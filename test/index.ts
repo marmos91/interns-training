@@ -55,7 +55,6 @@ describe('level2 Calculator', function ()
         calculator.operation(Operation.DIV);
         expect(() => calculator.input(0)).to.throw('Cannot divide by 0. Insert a different value.');
     });
-
 });
 
 describe('Level 2 WebPage', function ()
@@ -69,10 +68,7 @@ describe('Level 2 WebPage', function ()
         server.start(done);
     });
 
-    afterEach((done) =>
-    {
-        server.stop(done)
-    });
+    afterEach((done) => server.stop(done));
 
     it('should call _writeFile', async () =>
     {
