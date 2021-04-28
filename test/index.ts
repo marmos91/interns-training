@@ -1,8 +1,9 @@
 import {expect} from 'chai';
-import {ServerMock} from 'mock-http-server';
+import { write } from 'node:fs';
 import {Calculator, Operation} from '../src/Calculator';
 import {Webpage} from '../src/Webpage';
-
+const sinon = require('sinon');
+const ServerMock  = require('mock-http-server');
 
 describe('level2 Calculator', function ()
 {
@@ -57,10 +58,38 @@ describe('level2 Calculator', function ()
 
 });
 
-describe('Level 2 WebPage', function (){
-
+describe('Level 2 WebPage', function ()
+{
     let webpage: Webpage;
+    let server = new ServerMock({host: 'localhost', port: 8000});
 
-    beforeEach(()=> webpage = new Webpage);
+    beforeEach((done) =>
+    {
+        webpage = new Webpage();
+        server.start(done);
+    });
 
+    afterEach((done) =>
+    {
+        server.stop(done)
+    });
+
+    it('should call _writeFile', async () =>
+    {
+        server.on(
+            {
+                method: 'GET',
+                path: '*',
+                reply: {
+                    status: 200,
+                    headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify({ hello: 'world' })
+                }
+            }
+        )
+        let write_file = sinon.spy(webpage, '_writeFile');
+
+        await webpage.saveWebpage('http://localhost:8000', 'content.txt');
+        expect(write_file.called).to.be.true;
+    });
 });

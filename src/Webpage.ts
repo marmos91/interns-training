@@ -12,10 +12,12 @@ export class Webpage
      */
     public saveWebpage(url, path): Promise<string>
     {
-        return this.getWebpage(url).then((content) => this._writeFile(path, content)).catch((error) =>
+       // return Promise.resolve("true");
+
+         return this.getWebpage(url).then((content) => this._writeFile(path, content)).catch((error) =>
         {
             throw new Error(error);
-        })
+        }) 
     }
 
     /**
