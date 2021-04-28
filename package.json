@@ -24,8 +24,7 @@
   "dependencies": {
     "@types/node": "^12.12.11",
     "fs-extra": "^9.1.0",
-    "mock-http-server": "^1.4.2",
-    "yargs-parser": "^20.2.7"
+    "mock-http-server": "^1.4.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.15",
