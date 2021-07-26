@@ -1,0 +1,15 @@
+{
+  "name": "interns-training",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Wufe/interns-training.git",
+  "author": "Simone Bembi <simone.bembi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.0.3"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test/index.js"
+  }
+}
