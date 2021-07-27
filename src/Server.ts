@@ -114,10 +114,13 @@ export default class Server
                     break;
                 case MessageType.BROADCAST:
                     {
+                        const id = this._get_id_from_message(parsed_message);
                         const payload = this._get_payload_from_message(parsed_message);
 
                         for (const client of Object.values(this._clients))
                         {
+                            if (client.id === id)
+                                continue;
                             this._socket.send(payload, client.address.port, client.address.ip);
                         }
                     }
