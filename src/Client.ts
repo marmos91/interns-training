@@ -30,14 +30,16 @@ export default class Client
                 resolve();
             }));
         })
-        .then(() =>
-            this._internal_send({
+        .then(() => {
+            console.log(`[C:${this._id}] Registering client.`);
+            return this._internal_send({
                 type: MessageType.REGISTRATION,
-            })
-        )
-        .then(() =>
-            this._address
-        );
+            });
+        })
+        .then(() => {
+            console.log(`[C:${this._id}] Connected.`);
+            return this._address;
+        });
     }
 
     disconnect(): Promise<any>
@@ -48,7 +50,10 @@ export default class Client
         .then(() =>
         {
             this._socket.disconnect();
-            this._setup_client_socket();
+            this._socket.close(() =>
+            {
+                this._setup_client_socket();
+            });
         });
     }
 
@@ -72,6 +77,12 @@ export default class Client
     private _setup_client_socket(): void
     {
         this._socket = dgram.createSocket('udp4');
+        this._socket.on('message', this._on_message.bind(this));
+    }
+
+    private _on_message(message: Buffer, remote_info: dgram.RemoteInfo): void
+    {
+        console.log(`[C:${this._id}] Got a message:\n${message}\n`);
     }
 
     private _internal_send(message: Omit<IMessage, 'source'>): Promise<void>
