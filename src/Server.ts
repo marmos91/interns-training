@@ -4,12 +4,10 @@ import * as dgram from 'dgram';
 export default class Server
 {
     private _port: number = 8000;
-    private _socket: dgram.SocketType = 'udp4';
+    private _socket: dgram.Socket;
     private _clients: {
         [id: number]: IClient;
     } = {};
-
-    private _server: dgram.Socket;
 
     constructor()
     {
@@ -33,17 +31,17 @@ export default class Server
 
         if (cb)
         {
-            this._server.on('listening', () =>
+            this._socket.on('listening', () =>
             {
                 cb(this._port);
             });
         }
 
-        this._server.bind(this._port);
+        this._socket.bind(this._port);
     }
 
     shutdown(callback?: () => void): void {
-        this._server.close(() =>
+        this._socket.close(() =>
         {
             this._setup_server();
             if (callback)
@@ -53,15 +51,15 @@ export default class Server
 
     private _setup_server()
     {
-        this._server = dgram.createSocket(this._socket);
-        this._server.on('error', this._on_server_error.bind(this));
-        this._server.on('message', this._on_server_message.bind(this));
+        this._socket = dgram.createSocket('udp4');
+        this._socket.on('error', this._on_server_error.bind(this));
+        this._socket.on('message', this._on_server_message.bind(this));
     }
 
     private _on_server_error(error: Error): void
     {
         console.log(`Server error:\n ${error.stack}`);
-        this._server.close();
+        this._socket.close();
     }
 
     private _on_server_message(message: Buffer, remote_info: dgram.RemoteInfo): void
@@ -111,7 +109,7 @@ export default class Server
                         if (!client)
                             throw new Error(`Destination not registered.`);
 
-                        this._server.send(payload, client.address.port, client.address.ip);
+                        this._socket.send(payload, client.address.port, client.address.ip);
                     }
                     break;
                 case MessageType.BROADCAST:
@@ -120,7 +118,7 @@ export default class Server
 
                         for (const client of Object.values(this._clients))
                         {
-                            this._server.send(payload, client.address.port, client.address.ip);
+                            this._socket.send(payload, client.address.port, client.address.ip);
                         }
                     }
                     break;
