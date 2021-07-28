@@ -1,36 +1,35 @@
 import * as chai from "chai";
-import { expect } from "chai";
 import * as chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import * as sinon from "sinon";
-
 import * as ServerMock from "mock-http-server";
-
+import * as sinon from "sinon";
+import { expect } from "chai";
 import { join } from "path";
-
 import { promisify } from "util";
 import { readFile } from "fs";
-const readFilePromise = promisify(readFile);
-
 import { Webpage } from "../src/Webpage";
 
-describe('Webpage', () => {
+chai.use(chaiAsPromised);
+const readFilePromise = promisify(readFile);
 
+describe('Webpage', () =>
+{
     let webpage: Webpage;
     let server: typeof ServerMock;
 
-    beforeEach(done => {
+    beforeEach(done =>
+    {
         webpage = new Webpage();
         server = new ServerMock({ host: 'localhost', port: 9000 });
         server.start(done);
     });
 
-    afterEach(done => {
+    afterEach(done =>
+    {
         server.stop(done);
     });
 
-    it('should perform a GET HTTP request to a server', async () => {
-
+    it('should perform a GET HTTP request to a server', async () =>
+    {
         const body = JSON.stringify({ status: 'OK' });
 
         server.on({
@@ -44,14 +43,17 @@ describe('Webpage', () => {
         });
 
         const content = await webpage.getWebpage('http://localhost:9000/');
+
         expect(content).to.eq(body);
     });
 
-    it('should throw error if the server is not reachable', async () => {
+    it('should throw error if the server is not reachable', async () =>
+    {
         expect(webpage.getWebpage('http://localhost:9001/')).to.be.rejected;
     });
 
-    it('should throw error if the server responds with status <> 200', async () => {
+    it('should throw error if the server responds with status <> 200', async () =>
+    {
         server.on({
             method: 'GET',
             path: '/',
@@ -65,12 +67,13 @@ describe('Webpage', () => {
         await expect(webpage.getWebpage('http://localhost:9000/')).to.be.rejected;
     });
 
-    it('should save webpage content after its retrieval', async () => {
-
+    it('should save webpage content after its retrieval', async () =>
+    {
         const writeFile: sinon.SinonStub<[url: string, path: string], Promise<string>> =
             sinon.stub(webpage, <keyof typeof webpage>'_writeFile');
 
         const body = JSON.stringify({ status: 'OK', nonce: Math.random() });
+
         server.on({
             method: 'GET',
             path: '/',
@@ -88,8 +91,10 @@ describe('Webpage', () => {
         sinon.assert.calledWith(writeFile, contentFilePath, body);
     });
 
-    it('should save webpage content on filesystem after its retrieval', async () => {
+    it('should save webpage content on filesystem after its retrieval', async () =>
+    {
         const body = JSON.stringify({ status: 'OK', nonce: Math.random() });
+        
         server.on({
             method: 'GET',
             path: '/',
