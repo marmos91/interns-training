@@ -1,5 +1,6 @@
 module.exports = {
-    say(name = 'world') {
+    say(name = 'world')
+    {
         return `Hello ${name}!`;
     }
 }
