@@ -35,7 +35,7 @@ export default class Client
         return this._address;
     }
 
-    public async disconnect(): Promise<any>
+    public async disconnect(): Promise<void>
     {
         if (!this._connected)
             return;
@@ -57,7 +57,7 @@ export default class Client
         }
     }
 
-    public send(message: string, to: number): Promise<any>
+    public send(message: string, to: number): Promise<void>
     {
         return this._internal_send({
             type: MessageType.MESSAGE,
@@ -66,7 +66,7 @@ export default class Client
         });
     }
 
-    public broadcast(message: string): Promise<any>
+    public broadcast(message: string): Promise<void>
     {
         return this._internal_send({
             type: MessageType.BROADCAST,
