@@ -20,14 +20,16 @@ export default class Client
         if (server)
             this._address = server;
 
-        return Promise.resolve().then(() => {
+        return Promise.resolve().then(() =>
+        {
             if (this._show_log)
                 console.log(`[C:${this._id}] Registering client.`);
             return this._internal_send({
                 type: MessageType.REGISTRATION,
             });
         })
-        .then(() => {
+        .then(() =>
+        {
             if (this._show_log)
                 console.log(`[C:${this._id}] Connected.`);
             this._connected = true;

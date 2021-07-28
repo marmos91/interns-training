@@ -33,7 +33,8 @@ export default class Server
 
         this._socket.on('error', this._on_server_error.bind(this));
         this._socket.on('message', this._on_server_message.bind(this));
-        this._socket.on('close', () => {
+        this._socket.on('close', () =>
+        {
             this._clients = {};
         });
         if (cb)
