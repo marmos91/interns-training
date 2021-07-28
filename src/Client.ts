@@ -10,7 +10,7 @@ export default class Client
     };
     private _connected = false;
 
-    constructor(private _id: number, private _username: string)
+    constructor(private _id: number, private _username: string, private _show_log = false)
     {
         this._setup_client_socket();
     }
@@ -21,13 +21,15 @@ export default class Client
             this._address = server;
 
         return Promise.resolve().then(() => {
-            console.log(`[C:${this._id}] Registering client.`);
+            if (this._show_log)
+                console.log(`[C:${this._id}] Registering client.`);
             return this._internal_send({
                 type: MessageType.REGISTRATION,
             });
         })
         .then(() => {
-            console.log(`[C:${this._id}] Connected.`);
+            if (this._show_log)
+                console.log(`[C:${this._id}] Connected.`);
             this._connected = true;
             return this._address;
         });
@@ -79,7 +81,8 @@ export default class Client
 
     private _on_message(message: Buffer, remote_info: dgram.RemoteInfo): void
     {
-        console.log(`[C:${this._id}] Got a message:\n${message}\n`);
+        if (this._show_log)
+            console.log(`[C:${this._id}] Got a message:\n${message}\n`);
     }
 
     private _internal_send(message: Omit<IMessage, 'source'>): Promise<void>

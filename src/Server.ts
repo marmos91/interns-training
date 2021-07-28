@@ -10,7 +10,7 @@ export default class Server
     } = {};
     private _bound = false;
 
-    constructor()
+    constructor(private _show_log = false)
     {
         this._setup_server();
     }
@@ -67,7 +67,7 @@ export default class Server
 
     private _on_server_error(error: Error): void
     {
-        console.log(`Server error:\n ${error.stack}`);
+        console.error(`Server error:\n ${error.stack}`);
         this._socket.close();
     }
 
@@ -99,7 +99,8 @@ export default class Server
                             username,
                         };
                         this._clients[id] = client;
-                        console.log(`[S] Registered new client "${id}:${username}".`);
+                        if (this._show_log)
+                            console.log(`[S] Registered new client "${id}:${username}".`);
                     }
                     break;
                 case MessageType.LEAVE:
