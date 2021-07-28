@@ -10,15 +10,15 @@ export default class Server
     } = {};
     private _bound = false;
 
-    constructor(private _show_log = false)
+    public constructor(private _show_log = false)
     {
         this._setup_server();
     }
 
-    listen(port?: number): void;
-    listen(callback?: (port: number) => void): void;
-    listen(port: number, callback?: (port: number) => void): void;
-    listen(port_or_callback?: number | ((port: number) => void), callback?: (port: number) => void): void
+    public listen(port?: number): void;
+    public listen(callback?: (port: number) => void): void;
+    public listen(port: number, callback?: (port: number) => void): void;
+    public listen(port_or_callback?: number | ((port: number) => void), callback?: (port: number) => void): void
     {
         let cb: typeof callback;
         this._port = 8000;
@@ -49,7 +49,7 @@ export default class Server
         this._socket.bind(this._port);
     }
 
-    shutdown(callback?: () => void): void {
+    public shutdown(callback?: () => void): void {
         if (!this._bound && callback)
             return callback();
         this._socket.close(() =>

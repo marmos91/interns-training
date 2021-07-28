@@ -10,12 +10,12 @@ export default class Client
     };
     private _connected = false;
 
-    constructor(private _id: number, private _username: string, private _show_log = false)
+    public constructor(private _id: number, private _username: string, private _show_log = false)
     {
         this._setup_client_socket();
     }
 
-    async connect(server?: Address): Promise<Address>
+    public async connect(server?: Address): Promise<Address>
     {
         if (server)
             this._address = server;
@@ -35,7 +35,7 @@ export default class Client
         return this._address;
     }
 
-    async disconnect(): Promise<any>
+    public async disconnect(): Promise<any>
     {
         if (!this._connected)
             return;
@@ -57,7 +57,7 @@ export default class Client
         }
     }
 
-    send(message: string, to: number): Promise<any>
+    public send(message: string, to: number): Promise<any>
     {
         return this._internal_send({
             type: MessageType.MESSAGE,
@@ -66,7 +66,7 @@ export default class Client
         });
     }
 
-    broadcast(message: string): Promise<any>
+    public broadcast(message: string): Promise<any>
     {
         return this._internal_send({
             type: MessageType.BROADCAST,
