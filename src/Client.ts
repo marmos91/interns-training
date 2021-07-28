@@ -15,46 +15,46 @@ export default class Client
         this._setup_client_socket();
     }
 
-    connect(server?: Address): Promise<Address>
+    async connect(server?: Address): Promise<Address>
     {
         if (server)
             this._address = server;
 
-        return Promise.resolve().then(() =>
-        {
-            if (this._show_log)
-                console.log(`[C:${this._id}] Registering client.`);
-            return this._internal_send({
-                type: MessageType.REGISTRATION,
-            });
-        })
-        .then(() =>
-        {
-            if (this._show_log)
-                console.log(`[C:${this._id}] Connected.`);
-            this._connected = true;
-            return this._address;
+        if (this._show_log)
+            console.log(`[C:${this._id}] Registering client.`);
+
+        await this._internal_send({
+            type: MessageType.REGISTRATION,
         });
+
+        if (this._show_log)
+            console.log(`[C:${this._id}] Connected.`);
+
+        this._connected = true;
+
+        return this._address;
     }
 
-    disconnect(): Promise<any>
+    async disconnect(): Promise<any>
     {
         if (!this._connected)
-            return Promise.resolve();
-        return new Promise<void>(resolve =>
+            return;
+
+        try
         {
-            this._internal_send({
+            await this._internal_send({
                 type: MessageType.LEAVE,
-            })
-            .finally(() =>
-            {
-                this._socket.close(() =>
-                {
-                    resolve();
-                    this._setup_client_socket();
-                });
             });
-        });
+        }
+        catch
+        {
+            // NOOP
+        }
+        finally
+        {
+            await this._internal_socket_close();
+            this._setup_client_socket();
+        }
     }
 
     send(message: string, to: number): Promise<any>
@@ -105,6 +105,17 @@ export default class Client
             {
                 if (err)
                     return reject(err);
+                resolve();
+            });
+        });
+    }
+
+    private _internal_socket_close(): Promise<void>
+    {
+        return new Promise<void>(resolve =>
+        {
+            this._socket.close(() =>
+            {
                 resolve();
             });
         });
