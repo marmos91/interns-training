@@ -4,7 +4,8 @@
   "description": "Hi **${name}**, and welcome to the **Cubbit** training repository. Here you will find all the guides and exercises to master our technologies and to become a true **Javascript ninja**. In the next sections, the main concepts of git and javascript will be generally explained so you can start to explore the repository and its contents independently.",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node_modules/.bin/electron build/index.js"
+    "start": "tsc && node_modules/.bin/electron build/index.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,20 @@
     "electron": "^12.0.2"
   },
   "devDependencies": {
-    "@types/node": "^12.12.11"
-
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@types/node": "^12.12.11",
+    "cz-conventional-jira-smart-commit": "^0.1.1",
+    "husky": "^7.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-jira-smart-commit"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
