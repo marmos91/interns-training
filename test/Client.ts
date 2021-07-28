@@ -47,7 +47,7 @@ describe('Client', () =>
 
     it('should connect to the given server if a parameter is specified', (done) =>
     {
-        let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
+        let dgram_stub: sinon.SinonStub<any, void> = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
 
         client.connect({ip: 'api.server.net', port: 8888}).then((connected_server: Address) =>
         {
@@ -66,7 +66,7 @@ describe('Client', () =>
 
     it('should disconnect from the server', (done) =>
     {
-        let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
+        let dgram_stub: sinon.SinonStub<any, void> = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
         let close_stub = sandbox.spy(dgram.Socket.prototype, 'close');
 
         let request: IMessage = {
@@ -81,7 +81,7 @@ describe('Client', () =>
         {
             client.disconnect().then(() =>
             {
-                return new Promise((resolve) =>
+                return new Promise<void>((resolve) =>
                 {
                     expect(dgram_stub.calledWith(JSON.stringify(request), sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
                     expect(close_stub.called).to.be.true;
@@ -101,7 +101,7 @@ describe('Client', () =>
 
     it('should send a message', (done) =>
     {
-        let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
+        let dgram_stub: sinon.SinonStub<any, void> = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
 
         client.connect().then(() =>
         {
@@ -117,7 +117,7 @@ describe('Client', () =>
 
             return client.send('Hello', 2).then(() =>
             {
-                return new Promise((resolve) =>
+                return new Promise<void>((resolve) =>
                 {
                     expect(dgram_stub.calledWith(JSON.stringify(request), sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
                     resolve();
@@ -138,7 +138,7 @@ describe('Client', () =>
 
     it('should broadcast a message', (done) =>
     {
-        let dgram_stub = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
+        let dgram_stub: sinon.SinonStub<any, void> = sandbox.stub(dgram.Socket.prototype, 'send').yields(null, 10);
 
         client.connect().then(() =>
         {
@@ -153,7 +153,7 @@ describe('Client', () =>
 
             return client.broadcast('Hello').then(() =>
             {
-                return new Promise((resolve) =>
+                return new Promise<void>((resolve) =>
                 {
                     expect(dgram_stub.calledWith(JSON.stringify(request), sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any, sinon.match.any)).to.be.true;
                     resolve();
@@ -174,11 +174,11 @@ describe('Client', () =>
 
     it('should register the "message" callback and print the output', (done) =>
     {
-        let socket_stub = sandbox.spy(dgram.Socket.prototype, 'on');
+        let socket_stub: sinon.SinonSpy<any, dgram.Socket> = sandbox.spy(dgram.Socket.prototype, 'on');
 
         client.connect().then(() =>
         {
-            return new Promise((resolve) =>
+            return new Promise<void>((resolve) =>
             {
                 expect(socket_stub.calledTwice).to.be.true;
                 expect(socket_stub.firstCall.calledWith('listening')).to.be.true;
