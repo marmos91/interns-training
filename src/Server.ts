@@ -5,9 +5,7 @@ export default class Server
 {
     private _port: number = 8000;
     private _socket: dgram.Socket;
-    private _clients: {
-        [id: number]: IClient;
-    } = {};
+    private _clients: Record<number, IClient> = {};
     private _bound = false;
 
     public constructor(private _show_log = false)
