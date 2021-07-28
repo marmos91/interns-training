@@ -93,6 +93,7 @@ export default class Client
             id: this._id,
             username: this._username,
         };
+
         return new Promise<void>((resolve, reject) =>
         {
             const msg = JSON.stringify({
@@ -101,6 +102,7 @@ export default class Client
                 destination: message.destination,
                 payload: message.payload,
             });
+            
             this._socket.send(msg, 0, msg.length, this._address.port, this._address.ip, (err, bytes) =>
             {
                 if (err)

@@ -19,11 +19,17 @@ export default class Server
     public listen(port_or_callback?: number | ((port: number) => void), callback?: (port: number) => void): void
     {
         let cb: typeof callback;
+
         this._port = 8000;
-        if (port_or_callback) {
-            if (typeof port_or_callback === 'function') {
+
+        if (port_or_callback)
+        {
+            if (typeof port_or_callback === 'function')
+            {
                 cb = port_or_callback;
-            } else if (typeof port_or_callback === 'number') {
+            }
+            else if (typeof port_or_callback === 'number')
+            {
                 this._port = port_or_callback;
                 cb = callback;
             }
@@ -31,10 +37,12 @@ export default class Server
 
         this._socket.on('error', this._on_server_error.bind(this));
         this._socket.on('message', this._on_server_message.bind(this));
+
         this._socket.on('close', () =>
         {
             this._clients = {};
         });
+
         if (cb)
         {
             this._socket.on('listening', () =>
@@ -47,12 +55,15 @@ export default class Server
         this._socket.bind(this._port);
     }
 
-    public shutdown(callback?: () => void): void {
+    public shutdown(callback?: () => void): void
+    {
         if (!this._bound && callback)
             return callback();
+
         this._socket.close(() =>
         {
             this._setup_server();
+
             if (callback)
                 callback();
         });
@@ -76,10 +87,12 @@ export default class Server
         try
         {
             parsed_message = JSON.parse(message.toString());
-        } catch
+        }
+        catch
         {
             console.error(`Could not parse message ${message}. Not JSON.`)
         }
+
         try
         {
             switch (parsed_message.type)
@@ -97,7 +110,9 @@ export default class Server
                             id,
                             username,
                         };
+
                         this._clients[id] = client;
+
                         if (this._show_log)
                             console.log(`[S] Registered new client "${id}:${username}".`);
                     }
@@ -105,8 +120,10 @@ export default class Server
                 case MessageType.LEAVE:
                     {
                         const id = this._get_id_from_message(parsed_message);
+
                         if (!(id in this._clients))
                             throw new Error(`Client not registered.`);
+
                         delete this._clients[id];
                     }
                     break;
@@ -116,6 +133,7 @@ export default class Server
                         const payload = this._get_payload_from_message(parsed_message);
 
                         const client = this._clients[destination_id];
+
                         if (!client)
                             throw new Error(`Destination not registered.`);
 
@@ -131,12 +149,14 @@ export default class Server
                         {
                             if (client.id === id)
                                 continue;
+
                             this._socket.send(payload, 0, payload.length, client.address.port, client.address.ip);
                         }
                     }
                     break;
             }
-        } catch (err)
+        }
+        catch (err)
         {
             console.error(`Could not parse message ${message}. Protocol error: \n${err}`);
         }
@@ -145,32 +165,40 @@ export default class Server
     private _get_id_from_message(message: IMessage): number
     {
         const id = message.source?.id;
+
         if (id === undefined)
             throw new Error(`source.id not defined`);
+
         return id;
     }
 
     private _get_username_from_message(message: IMessage): string
     {
         const username = message.source?.username;
+
         if (username === undefined)
             throw new Error(`source.username not defined`);
+
         return username;
     }
 
     private _get_destination_id_from_message(message: IMessage): number
     {
         const id = message.destination;
+
         if (id === undefined)
             throw new Error(`destination not defined`);
+
         return id;
     }
 
     private _get_payload_from_message(message: IMessage): string
     {
         const payload = message.payload;
+
         if (payload === undefined)
             throw new Error(`payload not defined`);
+
         return payload;
     }
 }
