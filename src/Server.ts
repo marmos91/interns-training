@@ -8,6 +8,7 @@ export default class Server
     private _clients: {
         [id: number]: IClient;
     } = {};
+    private _bound = false;
 
     constructor()
     {
@@ -20,6 +21,7 @@ export default class Server
     listen(port_or_callback?: number | ((port: number) => void), callback?: (port: number) => void): void
     {
         let cb: typeof callback;
+        this._port = 8000;
         if (port_or_callback) {
             if (typeof port_or_callback === 'function') {
                 cb = port_or_callback;
@@ -29,6 +31,11 @@ export default class Server
             }
         }
 
+        this._socket.on('error', this._on_server_error.bind(this));
+        this._socket.on('message', this._on_server_message.bind(this));
+        this._socket.on('close', () => {
+            this._clients = {};
+        });
         if (cb)
         {
             this._socket.on('listening', () =>
@@ -37,10 +44,13 @@ export default class Server
             });
         }
 
+        this._bound = true;
         this._socket.bind(this._port);
     }
 
     shutdown(callback?: () => void): void {
+        if (!this._bound && callback)
+            return callback();
         this._socket.close(() =>
         {
             this._setup_server();
@@ -52,8 +62,7 @@ export default class Server
     private _setup_server()
     {
         this._socket = dgram.createSocket('udp4');
-        this._socket.on('error', this._on_server_error.bind(this));
-        this._socket.on('message', this._on_server_message.bind(this));
+        this._bound = false;
     }
 
     private _on_server_error(error: Error): void
@@ -90,6 +99,7 @@ export default class Server
                             username,
                         };
                         this._clients[id] = client;
+                        console.log(`[S] Registered new client "${id}:${username}".`);
                     }
                     break;
                 case MessageType.LEAVE:
@@ -121,7 +131,7 @@ export default class Server
                         {
                             if (client.id === id)
                                 continue;
-                            this._socket.send(payload, client.address.port, client.address.ip);
+                            this._socket.send(payload, 0, payload.length, client.address.port, client.address.ip);
                         }
                     }
                     break;

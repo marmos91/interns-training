@@ -8,6 +8,7 @@ export default class Client
         ip: 'localhost',
         port: 8000,
     };
+    private _connected = false;
 
     constructor(private _id: number, private _username: string)
     {
@@ -19,18 +20,7 @@ export default class Client
         if (server)
             this._address = server;
 
-        const {ip, port} = this._address;
-        return new Promise<void>((resolve, reject) =>
-        {
-            this._socket.connect(port, ip, <() => void>((err: Error) =>
-            {
-                if (err)
-                    return reject(err);
-
-                resolve();
-            }));
-        })
-        .then(() => {
+        return Promise.resolve().then(() => {
             console.log(`[C:${this._id}] Registering client.`);
             return this._internal_send({
                 type: MessageType.REGISTRATION,
@@ -38,21 +28,27 @@ export default class Client
         })
         .then(() => {
             console.log(`[C:${this._id}] Connected.`);
+            this._connected = true;
             return this._address;
         });
     }
 
     disconnect(): Promise<any>
     {
-        return this._internal_send({
-            type: MessageType.LEAVE,
-        })
-        .then(() =>
+        if (!this._connected)
+            return Promise.resolve();
+        return new Promise<void>(resolve =>
         {
-            this._socket.disconnect();
-            this._socket.close(() =>
+            this._internal_send({
+                type: MessageType.LEAVE,
+            })
+            .finally(() =>
             {
-                this._setup_client_socket();
+                this._socket.close(() =>
+                {
+                    resolve();
+                    this._setup_client_socket();
+                });
             });
         });
     }
@@ -77,6 +73,7 @@ export default class Client
     private _setup_client_socket(): void
     {
         this._socket = dgram.createSocket('udp4');
+        this._connected = false;
         this._socket.on('message', this._on_message.bind(this));
     }
 
@@ -93,10 +90,13 @@ export default class Client
         };
         return new Promise<void>((resolve, reject) =>
         {
-            this._socket.send(JSON.stringify({
+            const msg = JSON.stringify({
+                type: message.type,
                 source,
-                ...message,
-            }), (err, bytes) =>
+                destination: message.destination,
+                payload: message.payload,
+            });
+            this._socket.send(msg, 0, msg.length, this._address.port, this._address.ip, (err, bytes) =>
             {
                 if (err)
                     return reject(err);
