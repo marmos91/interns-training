@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node build/src/index.js",
-    "test": "yarn build && mocha build/test/index.js",
+    "test": "npm run build && mocha build/test/index.js",
     "prepare": "husky install"
   },
   "repository": {
