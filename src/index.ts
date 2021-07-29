@@ -1,3 +1,8 @@
-import {App} from './App';
+import { ElectronStarter } from './ElectronStarter';
+import { App } from './App';
 
-new App().listen();
+(async () =>
+{
+    const app = new App(new ElectronStarter());
+    await app.listen();
+})();
