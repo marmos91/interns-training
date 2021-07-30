@@ -62,7 +62,7 @@ export class App
             // (1) Tell the client which is the boundary
             connectionListener.write(boundary);
 
-            connectionListener.on('end', () =>
+            connectionListener.on('close', () =>
             {
                 received_filename = false;
                 write_stream?.close();
@@ -140,7 +140,8 @@ export class App
         if (!file_can_be_read)
         {
             console.error(`File cannot be read.`);
-            return this._file_send_failure(event, new Error(`File cannot be read`));
+            this._file_send_failure(event, new Error(`File cannot be read`));
+            return;
         }
 
         // Create the file read stream
