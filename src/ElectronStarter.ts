@@ -3,7 +3,7 @@ import * as path from "path";
 
 export class ElectronStarter
 {
-    private _index_file_path = './index.html';
+    private _index_file_path = './resources/index.html';
     private _preload_file_path = path.join(__dirname, 'preload/index.js');
     private _window?: BrowserWindow;
 

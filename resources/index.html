@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net">
+    <meta http-equiv="X-Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js" defer></script>
+</head>
+
+<body class="hero is-fullheight is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+    <div class="columns is-vcentered">
+        <div class="container is-flex is-flex-direction-column is-align-items-stretch">
+            <div class="is-flex is-flex-direction-column is-align-items-center">
+                <h1 class="is-size-1">Welcome to Electron</h1>
+                <h3 class="is-size-4">Fill the form below to transfer a file</h3>
+            </div>
+            <div class="level mt-6 mb-4">
+                <div class="level-item">
+                    <div class="field">
+                        <p class="control">
+                            <input type="text" class="input" placeholder="Ip address" id="address-input">
+                        </p>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <div class="field">
+                        <p class="control">
+                            <input type="text" class="input" placeholder="Port" id="port-input">
+                        </p>
+                    </div>
+                </div>
+                <div class="level-item">
+                    <div class="field">
+                        <p class="control">
+                            <button class="input" id="file-picker-input">
+                                Choose a file...
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="level mb-4">
+                <div class="level-left"></div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <button class="button is-info" id="send-action">Send</button>
+                    </div>
+                </div>
+            </div>
+            <div class="is-flex is-flex-direction-column is-align-items-center">
+                <span id="server-message"></span>
+                <span id="transfer-message"></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

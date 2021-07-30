@@ -4,7 +4,7 @@
   "description": "Hi **${name}**, and welcome to the **Cubbit** training repository. Here you will find all the guides and exercises to master our technologies and to become a true **Javascript ninja**. In the next sections, the main concepts of git and javascript will be generally explained so you can start to explore the repository and its contents independently.",
   "main": "build/index.js",
   "scripts": {
-    "start": "tsc && cp src/index.html build/index.html && node_modules/.bin/electron build/index.js",
+    "start": "tsc && cp -R resources/ build/resources/ && node_modules/.bin/electron build/index.js",
     "prepare": "husky install"
   },
   "repository": {
