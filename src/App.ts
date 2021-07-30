@@ -8,7 +8,7 @@ import mkdirp from 'mkdirp';
 import nanoid from 'nanoid';
 
 import { ElectronStarter } from "./ElectronStarter";
-import { dialog_closed_event, open_dialog_command, send_file_command, send_file_failed_event, send_file_succeeded_event, server_bound_event, start_server_command } from "./shared/events_commands";
+import { dialog_closed_event, open_dialog_command, send_file_command, send_file_failed_event, send_file_succeeded_event, server_bound_event, start_server_command, subscribe_to_transfers_command, transfer_completed_event, transfer_incoming_event } from "./shared/events_commands";
 
 /**
  * Metadata exchange protocol:
@@ -34,6 +34,7 @@ import { dialog_closed_event, open_dialog_command, send_file_command, send_file_
 export class App
 {
     private _download_folder = join(process.cwd(), 'downloads');
+    private _transfers_subscription_channel: Function;
 
     constructor(private _electron: ElectronStarter)
     {}
@@ -43,6 +44,7 @@ export class App
         ipcMain.on(start_server_command, this._on_start_server_command.bind(this));
         ipcMain.on(open_dialog_command, this._on_open_dialog_command.bind(this));
         ipcMain.on(send_file_command, this._on_send_file_command.bind(this));
+        ipcMain.on(subscribe_to_transfers_command, this._on_subscribe_to_transfers_command.bind(this));
 
         await this._try_make_download_folder(this._download_folder);
     }
@@ -64,6 +66,9 @@ export class App
             {
                 received_filename = false;
                 write_stream?.close();
+
+                if (this._transfers_subscription_channel)
+                    this._transfers_subscription_channel(transfer_completed_event);
             });
 
             connectionListener.on('data', async data =>
@@ -79,6 +84,9 @@ export class App
 
                         const raw_filename = filename_buffer.replace(boundary, '');
                         const filename = await this._filter_filename(raw_filename);
+
+                        if (this._transfers_subscription_channel)
+                            this._transfers_subscription_channel(transfer_incoming_event, filename);
 
                         console.log(`Saving file ${filename} into folder ${this._download_folder}`);
 
@@ -272,5 +280,10 @@ export class App
         const [_, name, __, ext] = filename.match(/^(.*?)(\.(((?!\.).)*))?$/i);
 
         return `${name}.${id}.${ext}`;
+    }
+
+    private _on_subscribe_to_transfers_command(event: IpcMainEvent)
+    {
+        this._transfers_subscription_channel = event.reply;
     }
 }

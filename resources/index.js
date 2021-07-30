@@ -18,6 +18,8 @@ window.server.start_server()
         server_message_span.innerHTML = `Server is listening on port ${port}`;
 
         attach_event_handlers();
+
+        window.server.subscribe_to_incoming_transfers(on_incoming_transfer, on_transfer_completed);
     });
 
 function attach_event_handlers()
@@ -77,4 +79,14 @@ function attach_event_handlers()
 
         transferring = false;
     });
+}
+
+function on_incoming_transfer(filename)
+{
+    transfer_message_span.innerHTML = `Receiving file ${filename}..`;
+}
+
+function on_transfer_completed()
+{
+    transfer_message_span.innerHTML = 'Transfer completed';
 }
