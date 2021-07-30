@@ -46,7 +46,7 @@ export class ElectronStarter
             height: 600,
             webPreferences: {
                 preload: this._preload_file_path,
-                nodeIntegration: true,
+                nodeIntegration: false,
             }
         });
 
