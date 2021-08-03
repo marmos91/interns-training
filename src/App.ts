@@ -8,7 +8,7 @@ import mkdirp from 'mkdirp';
 import nanoid from 'nanoid';
 
 import { ElectronStarter } from "./ElectronStarter";
-import { dialog_closed_event, open_dialog_command, send_file_command, send_file_failed_event, send_file_succeeded_event, server_bound_event, start_server_command, subscribe_to_transfers_command, transfer_completed_event, transfer_incoming_event } from "./shared/events_commands";
+import { dialog_closed_event, open_dialog_command, send_file_command, send_file_failed_event, send_file_succeeded_event, server_bind_failed_event, server_bind_succeeded_event, start_server_command, subscribe_to_transfers_command, transfer_completed_event, transfer_incoming_event } from "./shared/events_commands";
 
 /**
  * Metadata exchange protocol:
@@ -106,7 +106,7 @@ export class App
 
         server.on('error', err =>
         {
-            throw err;
+            event.reply(server_bind_failed_event, err);
         });
 
         server.listen(0, () =>
@@ -115,7 +115,7 @@ export class App
 
             console.log(`Server listening on port ${port}`);
 
-            event.reply(server_bound_event, port);
+            event.reply(server_bind_succeeded_event, port);
         });
     }
 

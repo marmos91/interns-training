@@ -20,6 +20,10 @@ window.server.start_server()
         attach_event_handlers();
 
         window.server.subscribe_to_incoming_transfers(on_incoming_transfer, on_transfer_completed);
+    })
+    .catch(error =>
+    {
+        server_message_span.innerHTML = `Error creating server.\n${error}`;
     });
 
 function attach_event_handlers()
