@@ -13,9 +13,9 @@ export class Challenge
                 output += 'buzz';
             
             if(output)
-                resolve(output);
-            else
-                resolve(input);
+                 return resolve(output);
+                 
+            return resolve(input);
         });
     }
 }
