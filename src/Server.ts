@@ -68,6 +68,9 @@ export default class Server
                     } 
                 };
                 break;
+
+            case MessageType.LEAVE:
+                
         }
     }
 }
