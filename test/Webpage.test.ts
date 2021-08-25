@@ -1,9 +1,8 @@
 import {expect} from 'chai';
-import * as chaiAsPromised from "chai-as-promised";
+import * as chaiAsPromised from 'chai-as-promised';
 import * as sinon from 'sinon';
 import * as ServerMock from 'mock-http-server';
 import {Webpage} from '../src/Webpage';
-import { doesNotReject } from 'node:assert';
 
 describe('Level2 - Webpage', () =>
 {
@@ -22,7 +21,7 @@ describe('Level2 - Webpage', () =>
 
     afterEach((done) => server.stop(done));
 
-    it('should return body when getWebpage gets response with status 200 and no errors', () => 
+    it('should return body when getWebpage gets response with status 200 and no errors', async () => 
     {
         server.on(
             {
@@ -36,13 +35,12 @@ describe('Level2 - Webpage', () =>
             }
         );
 
-       webpage.getWebpage(url).then((response) => 
-       {
-           expect(response).to.equal(body); 
-       })
+     
+           expect(await webpage.getWebpage(url)).to.equal(body); 
+       
     });
-
-    it('should return error when getWebpage gets response with status 500', () => 
+    
+    it('should throw error when getWebpage gets response with 500', async () => 
     {
 
         server.on(
@@ -57,9 +55,93 @@ describe('Level2 - Webpage', () =>
             }
         );
 
-        webpage.getWebpage(url).catch((error) => 
+        try
+        {
+            await webpage.getWebpage(url);
+        }
+        catch(error)
         {
             expect(error.statusCode).to.equal(500);
-        });
+        }
     });
+
+    it('should call getWebpage and _writeFile once when executes saveWebpage', async () => 
+    {
+        
+        server.on(
+            {
+                method: 'GET',
+                path: '*',
+                reply: {
+                    status: 200,
+                    headers: {'content-type': 'application/json'},
+                    body: body
+                }
+            }
+        );
+        
+        let get_webpage = sinon.spy(webpage, 'getWebpage');
+        let write_file = sinon.stub(webpage, '_writeFile' as any);
+
+        await webpage.saveWebpage(url, '/path');
+
+        sinon.assert.calledOnce(get_webpage); 
+        sinon.assert.calledOnce(write_file);    
+        get_webpage.restore();
+        write_file.restore();
+    });
+
+    it('should throw error when executes saveWebpage', async () => 
+    {
+        
+        server.on(
+            {
+                method: 'GET',
+                path: '*',
+                reply: {
+                    status: 200,
+                    headers: {'content-type': 'application/json'},
+                    body: body
+                }
+            }
+        );
+        
+        let test_error = new Error('test_error');
+        let get_webpage = sinon.stub(webpage, 'getWebpage').throws(test_error);
+
+        try
+        {
+            await webpage.saveWebpage(url, '/path');
+        }
+        catch(error)
+        {
+            expect(error).to.equal(test_error);
+        }
+        finally
+        {
+            get_webpage.restore();
+        }
+    });
+
+    // it('should throw error when executes saveWebpage', async () => 
+    // {
+        
+    //     server.on(
+    //         {
+    //             method: 'GET',
+    //             path: '*',
+    //             reply: {
+    //                 status: 200,
+    //                 headers: {'content-type': 'application/json'},
+    //                 body: body
+    //             }
+    //         }
+    //     );
+        
+
+    //     let get_webpage = sinon.stub(webpage, 'getWebpage').throws(test_error);
+
+    //     await webpage.saveWebpage(url, '/path');
+    
+    // });
 });
