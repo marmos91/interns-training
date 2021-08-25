@@ -17,12 +17,6 @@ describe('Level2 - Webpage', () =>
     {
         webpage = new Webpage();
         server.start(done);
-    });
-
-    afterEach((done) => server.stop(done));
-
-    it('should return body when getWebpage gets response with status 200 and no errors', async () => 
-    {
         server.on(
             {
                 method: 'GET',
@@ -34,10 +28,13 @@ describe('Level2 - Webpage', () =>
                 }
             }
         );
+    });
 
-     
-           expect(await webpage.getWebpage(url)).to.equal(body); 
-       
+    afterEach((done) => server.stop(done));
+
+    it('should return body when getWebpage gets response with status 200 and no errors', async () => 
+    {
+        expect(await webpage.getWebpage(url)).to.equal(body); 
     });
     
     it('should throw error when getWebpage gets response with 500', async () => 
@@ -67,19 +64,6 @@ describe('Level2 - Webpage', () =>
 
     it('should call getWebpage and _writeFile once when executes saveWebpage', async () => 
     {
-        
-        server.on(
-            {
-                method: 'GET',
-                path: '*',
-                reply: {
-                    status: 200,
-                    headers: {'content-type': 'application/json'},
-                    body: body
-                }
-            }
-        );
-        
         let get_webpage = sinon.spy(webpage, 'getWebpage');
         let write_file = sinon.stub(webpage, '_writeFile' as any);
 
@@ -91,21 +75,8 @@ describe('Level2 - Webpage', () =>
         write_file.restore();
     });
 
-    it('should throw error when executes saveWebpage', async () => 
+    it('should throw error when executes saveWebpage with error', async () => 
     {
-        
-        server.on(
-            {
-                method: 'GET',
-                path: '*',
-                reply: {
-                    status: 200,
-                    headers: {'content-type': 'application/json'},
-                    body: body
-                }
-            }
-        );
-        
         let test_error = new Error('test_error');
         let get_webpage = sinon.stub(webpage, 'getWebpage').throws(test_error);
 
@@ -123,25 +94,10 @@ describe('Level2 - Webpage', () =>
         }
     });
 
-    // it('should throw error when executes saveWebpage', async () => 
-    // {
-        
-    //     server.on(
-    //         {
-    //             method: 'GET',
-    //             path: '*',
-    //             reply: {
-    //                 status: 200,
-    //                 headers: {'content-type': 'application/json'},
-    //                 body: body
-    //             }
-    //         }
-    //     );
-        
-
-    //     let get_webpage = sinon.stub(webpage, 'getWebpage').throws(test_error);
-
-    //     await webpage.saveWebpage(url, '/path');
-    
-    // });
+    it('should return path when executes saveWebpage with no errors', async () => 
+    {
+        const path = '/path';
+        let write_file = sinon.stub(webpage, '_writeFile' as any).resolves(path);
+        expect(await webpage.saveWebpage(url, path)).to.equal(path);
+    });
 });
