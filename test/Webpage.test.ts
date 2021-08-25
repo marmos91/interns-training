@@ -8,21 +8,34 @@ describe('Level2 - Webpage', () =>
 {
     const host = 'localhost';
     const port = 9000;
-    const url = `http://${host}:${port}`;
+    const url = `http://${host}:${port}/`;
     const body = JSON.stringify({hello: 'world'});
     let webpage: Webpage;
     let server = new ServerMock({host: host, port: port});
 
+    before(() => {webpage = new Webpage()});
+
     beforeEach((done) =>
     {
-        webpage = new Webpage();
         server.start(done);
+        
         server.on(
             {
                 method: 'GET',
-                path: '*',
+                path: '/',
                 reply: {
                     status: 200,
+                    headers: {'content-type': 'application/json'},
+                    body: body
+                }
+            }
+        );  
+        server.on(
+            {
+                method: 'GET',
+                path: '/error',
+                reply: {
+                    status: 500,
                     headers: {'content-type': 'application/json'},
                     body: body
                 }
@@ -39,22 +52,9 @@ describe('Level2 - Webpage', () =>
     
     it('should throw error when getWebpage gets response with 500', async () => 
     {
-
-        server.on(
-            {
-                method: 'GET',
-                path: '*',
-                reply: {
-                    status: 500,
-                    headers: {'content-type': 'application/json'},
-                    body: body
-                }
-            }
-        );
-
         try
         {
-            await webpage.getWebpage(url);
+            await webpage.getWebpage(url + 'error');
         }
         catch(error)
         {
@@ -66,9 +66,9 @@ describe('Level2 - Webpage', () =>
     {
         let get_webpage = sinon.spy(webpage, 'getWebpage');
         let write_file = sinon.stub(webpage, <keyof typeof webpage>'_writeFile');
-
+       
         await webpage.saveWebpage(url, '/path');
-
+       
         sinon.assert.calledOnce(get_webpage); 
         sinon.assert.calledOnce(write_file);
          
@@ -100,6 +100,7 @@ describe('Level2 - Webpage', () =>
         const path = '/path';
         let write_file = sinon.stub(webpage, <keyof typeof webpage>'_writeFile').resolves(path);
         expect(await webpage.saveWebpage(url, path)).to.equal(path);
+
         write_file.restore();
     });
 });
