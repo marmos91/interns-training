@@ -12,36 +12,22 @@ describe('Level2 - Calculator', () =>
         expect(calculator.result).to.equal(0);
     });
 
-    it('should return 4 when inputs are 1 and 3 and operation is ADD', () =>
-    {
-        calculator.input(2);
-        calculator.operation(Operation.ADD);
-        calculator.input(2);
-        expect(calculator.result).to.equal(4);
-    });
+    const basic_operations_test_data = [
+        {input_1:2, operation:Operation.ADD, input_2:2, expected_result: 4},
+        {input_1:7, operation:Operation.SUB, input_2:3, expected_result: 4},
+        {input_1:15, operation:Operation.MUL, input_2:15, expected_result: 225},
+        {input_1:144, operation:Operation.DIV, input_2:12, expected_result: 12},
+    ];
 
-    it('should return 4 when inputs are 7 and 3 and operation is SUB', () =>
+    basic_operations_test_data.forEach((data) => 
     {
-        calculator.input(7);
-        calculator.operation(Operation.SUB);
-        calculator.input(3);
-        expect(calculator.result).to.equal(4);
-    });
-
-    it('should return 225 when inputs are 15 and 15 and operation is MUL', () =>
-    {
-        calculator.input(15);
-        calculator.operation(Operation.MUL);
-        calculator.input(15);
-        expect(calculator.result).to.equal(225);
-    });
-
-    it('should return 12 when inputs are 144 and 12 and operation is DIV', () =>
-    {
-        calculator.input(144);
-        calculator.operation(Operation.DIV);
-        calculator.input(12);
-        expect(calculator.result).to.equal(12);
+        it(`should return ${data.expected_result} when inputs are ${data.input_1} and ${data.input_2} and operation is ${Operation[data.operation]}`, () => 
+        {
+            calculator.input(data.input_1);
+            calculator.operation(data.operation);
+            calculator.input(data.input_2);
+            expect(calculator.result).to.equal(data.expected_result);
+        })
     });
 
     it('should throw error when dividing by 0, inputs are 144 and 0 and operation is DIV', () =>
