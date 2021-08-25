@@ -65,12 +65,13 @@ describe('Level2 - Webpage', () =>
     it('should call getWebpage and _writeFile once when executes saveWebpage', async () => 
     {
         let get_webpage = sinon.spy(webpage, 'getWebpage');
-        let write_file = sinon.stub(webpage, '_writeFile' as any);
+        let write_file = sinon.stub(webpage, <keyof typeof webpage>'_writeFile');
 
         await webpage.saveWebpage(url, '/path');
 
         sinon.assert.calledOnce(get_webpage); 
-        sinon.assert.calledOnce(write_file);    
+        sinon.assert.calledOnce(write_file);
+         
         get_webpage.restore();
         write_file.restore();
     });
@@ -97,7 +98,8 @@ describe('Level2 - Webpage', () =>
     it('should return path when executes saveWebpage with no errors', async () => 
     {
         const path = '/path';
-        let write_file = sinon.stub(webpage, '_writeFile' as any).resolves(path);
+        let write_file = sinon.stub(webpage, <keyof typeof webpage>'_writeFile').resolves(path);
         expect(await webpage.saveWebpage(url, path)).to.equal(path);
+        write_file.restore();
     });
 });
