@@ -7,7 +7,7 @@ export default class Client
     private _username: string;
     private _socket: dgram.Socket;
     private _server: Address;
-    private readonly _server_default_address: Address = {ip: 'localhost', port: 8000};
+    private _server_default_address: Address = {ip: 'localhost', port: 8000};
 
     constructor(id: number, username: string)
     {
@@ -16,8 +16,10 @@ export default class Client
         this._socket = dgram.createSocket('udp4');
     }
 
-    public connect(server: Address = this._server_default_address): Promise <Address>
+    public connect(server: Address = {ip: 'localhost', port: 8000}): Promise <Address>
     {
+        this._server = server;
+
         const register_message: IMessage = {
             type: MessageType.REGISTRATION,
             source: {
@@ -29,11 +31,13 @@ export default class Client
         //listen to messges from server
         this._socket.on('message', (msg, rinfo) => 
         {
-            console.log('[CLIENT MESSAGE] ', msg)
+            const received_message: IMessage = JSON.parse(msg.toString());
+            console.log(`[CLIENT]: received message: ${received_message.payload} from client ${received_message.source.id}`);
         });
-
+        // console.log(`client-${this._id}: connect: address: `, this._server_default_address.port," ", this._server.ip);
        return this._prepare_and_send_message(register_message).then(() =>
        {
+            // console.log(`client-${this._id}: connect first return`);
            return this._server;
        });
     }
