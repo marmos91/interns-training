@@ -68,7 +68,7 @@ describe('Server', () =>
 
     it('should setup all the dgram handlers', (done) =>
     {
-        let socket_spy = sandbox.spy(dgram.Socket.prototype, 'on');
+        let socket_spy: sinon.SinonSpy = sandbox.spy(dgram.Socket.prototype, 'on');
 
         server.listen(() =>
         {
@@ -123,7 +123,7 @@ describe('Server', () =>
         let client1 = new Client(1, 'test');
         let client2 = new Client(2, 'test1');
 
-        let send_spy = sandbox.spy(dgram.Socket.prototype, 'send');
+        let send_spy: sinon.SinonSpy = sandbox.spy(dgram.Socket.prototype, 'send');
 
         server.listen(() =>
         {
@@ -164,7 +164,7 @@ describe('Server', () =>
         let client2 = new Client(2, 'test1');
         let client3 = new Client(3, 'test2');
 
-        let send_spy = sandbox.spy(dgram.Socket.prototype, 'send');
+        let send_spy: sinon.SinonSpy = sandbox.spy(dgram.Socket.prototype, 'send');
 
         server.listen(() =>
         {
@@ -172,7 +172,7 @@ describe('Server', () =>
             {
                 return client1.broadcast('Hello').then(() =>
                 {
-                    return new Promise((resolve) =>
+                    return new Promise <void> ((resolve) =>
                     {
                         setTimeout(() =>
                         {
