@@ -16,55 +16,52 @@ export default class Server
         this._port = port && typeof port === 'number' ? port : this._port_default_number;
         this._socket = dgram.createSocket('udp4');
 
-        //TODO make more readable
-        this._socket.on('error', (error) =>{
-            // console.log(`server error:\n${error.stack}`);
+        this._socket.on('error', (error) =>
+        {
             this._socket.close();
         });
 
         this._socket.on('message', (msg, rinfo) =>
         {
-            // console.log(`server got message: ${msg} from ${rinfo.address}:${rinfo.port}`);
-            this._handle_incoming_message(msg, rinfo);
+            const message: IMessage = JSON.parse(msg.toString());
+
+            this._handle_incoming_message(message, rinfo);
         });
 
         this._socket.on('listening', () => 
         {
-            const address = this._socket.address();
-            // console.log(`server listening ${address.address}:${address.port}`);
+            console.log(`[SERVER] listening on port ${this._port}`);
+        });
+
+        this._socket.on('close', () => 
+        {
+            console.log("[SERVER] closed");
         });
 
         this._socket.bind(this._port);
 
         if(typeof port === 'function')
-        {
-            // console.log('server: port === function')
-            port(this._port);
-        }            
+            port(this._port);           
         else if(callback)
-        {
             callback(this._port);
-        }
-          
-
     }
 
     public shutdown(callback?: () => void)
     {
-        //TODO: close the socket, instantiate a new one 
-        //TODO: callback as close argument?
-        if(this._socket)
-            this._socket.close();
-        
-        this._clients = {};
+        if(!this._socket)
+            return;
 
-        if(callback)
-            return callback();
+        this._socket.close(() =>
+        {
+            this._socket = dgram.createSocket('udp4');
+
+            if(callback)
+                return callback();
+        });
     }
 
-    private _handle_incoming_message(msg: Buffer, rinfo: dgram.RemoteInfo)
+    private _handle_incoming_message(message: IMessage, rinfo: dgram.RemoteInfo)
     {
-        const message: IMessage = JSON.parse(msg.toString());
 
         switch(message.type)
         {
@@ -82,6 +79,11 @@ export default class Server
 
             case MessageType.BROADCAST:
                 this._client_broadcast(message);
+                break;
+            
+            default:
+                break;
+
         }
     }
 
@@ -115,7 +117,7 @@ export default class Server
     {
         const {destination, payload} = message;
 
-       this._send_message(payload, destination, message.source.id, message.source.username);
+        this._send_message(payload, destination, message.source.id, message.source.username);
     }
 
     private _client_broadcast(message: IMessage)
@@ -135,7 +137,10 @@ export default class Server
         const client_destination = this._clients[destination];
 
         if(!client_destination)
+        {
             console.log(`[SERVER] destination:${destination} not found`);
+            return;
+        }
         
         const message: IMessage = {
             type: MessageType.MESSAGE,
@@ -152,8 +157,6 @@ export default class Server
         {
             if(error)
                 return error;
-            
-            // console.log(`[SERVER]: message: ${payload} sent to client: ${client_destination.id}`);
         });
     }
 }

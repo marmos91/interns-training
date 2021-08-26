@@ -32,17 +32,16 @@ export default class Client
         this._socket.on('message', (msg, rinfo) => 
         {
             const received_message: IMessage = JSON.parse(msg.toString());
-            console.log(`[CLIENT]: received message: ${received_message.payload} from client ${received_message.source.id}`);
+            console.log(`[CLIENT-${this._id}]: received message: ${received_message.payload} from client ${received_message.source.id}`);
         });
-        // console.log(`client-${this._id}: connect: address: `, this._server_default_address.port," ", this._server.ip);
+      
        return this._prepare_and_send_message(register_message).then(() =>
        {
-            // console.log(`client-${this._id}: connect first return`);
            return this._server;
        });
     }
 
-    public disconnect(): Promise <any>
+    public disconnect(): Promise <void>
     {
         const leave_message: IMessage = {
             type: MessageType.LEAVE,
@@ -52,16 +51,16 @@ export default class Client
             }
         };
 
-        return this._prepare_and_send_message(leave_message).then(() => 
+        return new Promise((resolve, reject) => 
         {
-            this._socket.close(() => 
-            {
-                this._socket = dgram.createSocket('udp4');
-            });
+            this._prepare_and_send_message(leave_message) 
+            this._socket.close();
+            this._socket = dgram.createSocket('udp4');
+            return resolve();
         });
     }
 
-    public send(message: string, to: number): Promise <any>
+    public send(message: string, to: number): Promise <void>
     {
         const send_message: IMessage = {
             type: MessageType.MESSAGE,
@@ -76,7 +75,7 @@ export default class Client
         return this._prepare_and_send_message(send_message);
     }
 
-    public broadcast(message: string): Promise<any>
+    public broadcast(message: string): Promise<void>
     {
         const broadcast_message: IMessage = {
             type: MessageType.BROADCAST,
@@ -100,8 +99,8 @@ export default class Client
             {
                 if(error)
                     return reject(error);
-                
-                resolve();
+
+                return resolve();
             });
         });
     }
