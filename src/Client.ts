@@ -7,7 +7,6 @@ export default class Client
     private _username: string;
     private _socket: dgram.Socket;
     private _server: Address;
-    private _server_default_address: Address = {ip: 'localhost', port: 8000};
 
     constructor(id: number, username: string)
     {

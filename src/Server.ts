@@ -1,6 +1,4 @@
 import * as dgram from 'dgram';
-import { Socket } from 'dgram';
-import { server } from 'sinon';
 import {IClient} from './Interfaces';
 import {IMessage, MessageType} from './Interfaces';
 
