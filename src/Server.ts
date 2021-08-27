@@ -9,9 +9,9 @@ export default class Server
     private _socket: dgram.Socket;
     private _clients: {[id: number]: IClient} = {};
 
-    public listen(port?: number | ((port: number) => void), callback?: (port: number) => void)
+    public listen(config:{port?: number, callback?: (port: number) => void})
     {
-        this._port = port && typeof port === 'number' ? port : this._port_default_number;
+        this._port = config.port ? config.port : this._port_default_number;
         this._socket = dgram.createSocket('udp4');
 
         this._socket.on('error', (error) =>
@@ -19,11 +19,11 @@ export default class Server
             this._socket.close();
         });
 
-        this._socket.on('message', (msg, rinfo) =>
+        this._socket.on('message', (message,remote_info) =>
         {
-            const message: IMessage = JSON.parse(msg.toString());
+            const received_message: IMessage = JSON.parse(message.toString());
 
-            this._handle_incoming_message(message, rinfo);
+            this._handle_incoming_message(received_message, remote_info);
         });
 
         this._socket.on('listening', () => 
@@ -38,10 +38,8 @@ export default class Server
 
         this._socket.bind(this._port);
 
-        if(typeof port === 'function')
-            port(this._port);           
-        else if(callback)
-            callback(this._port);
+        if(config.callback)
+            config.callback(this._port);
     }
 
     public shutdown(callback?: () => void)
@@ -51,20 +49,18 @@ export default class Server
 
         this._socket.close(() =>
         {
-            this._socket = dgram.createSocket('udp4');
-
             if(callback)
                 return callback();
         });
     }
 
-    private _handle_incoming_message(message: IMessage, rinfo: dgram.RemoteInfo)
+    private _handle_incoming_message(message: IMessage, remote_info: dgram.RemoteInfo)
     {
 
         switch(message.type)
         {
             case MessageType.REGISTRATION:
-                this._client_register(message, rinfo);
+                this._client_register(message, remote_info);
                 break;
 
             case MessageType.LEAVE:
@@ -85,23 +81,17 @@ export default class Server
         }
     }
 
-    private _client_register(message: IMessage, rinfo: dgram.RemoteInfo)
+    private _client_register(message: IMessage, remote_info: dgram.RemoteInfo)
     {
         const {source: {id, username}} = message;
 
         if(this._clients[id])
             return;
         
-        const {address, port} = rinfo;
+        const {address: ip, port} = remote_info;
 
-        this._clients[id] = {
-            id: id, 
-            username: username, 
-            address: {
-                ip: address, 
-                port: port
-            }
-        };
+        this._clients[id] = {id, username, address: {ip, port}};
+        console.log(this._clients);
     }
 
     private _client_leave(message: IMessage)
@@ -149,9 +139,9 @@ export default class Server
             payload: payload
         };
 
-        const message_string = JSON.stringify(message);
+        const encoded_message = JSON.stringify(message);
 
-        this._socket.send(message_string, 0, message_string.length, client_destination.address.port, client_destination.address.ip, (error) => 
+        this._socket.send(encoded_message, 0, encoded_message.length, client_destination.address.port, client_destination.address.ip, (error) => 
         {
             if(error)
                 return error;
