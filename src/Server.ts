@@ -133,9 +133,9 @@ export default class Server
         const message: IMessage = {
             type: MessageType.MESSAGE,
             source: {
-                    id: source_id,
-                    username: source_username
-                },
+                id: source_id,
+                username: source_username
+            },
             payload: payload
         };
 

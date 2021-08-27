@@ -21,10 +21,7 @@ export default class Client
 
         const register_message: IMessage = {
             type: MessageType.REGISTRATION,
-            source: {
-                id: this._id,
-                username: this._username
-            }
+            source: this._get_message_source()
         };
 
         // listen to messges from server
