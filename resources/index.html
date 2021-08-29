@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
-    <script src="index.js"></script>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-    <input>
-    <button>BUTTON</button>
-    <input type="file">
-  </body>
+    <head>
+        <title>Electron v12 Example App Template</title>
+    </head>
+    <body>
+
+        <div>Counter: <span id="count"></span><div>
+        <button id="incrementCount">Increment the counter</button>
+        <button id="decrementCount">Decrement the counter</button>
+        <div>
+            <input id="input-ip">
+            <input id="input-port">
+            <button id="button-select-file">Choose a file</button>
+            <button id="button-send">Send</button>
+        </div>
+        <div>Server is listening on port: <span id="server-port"></span><div>
+        <script src="./index.js"></script>
+
+    </body>
 </html>
