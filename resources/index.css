@@ -1,4 +1,18 @@
 body {
-  background: white;
+  background: #ffdd57;
   color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.controlls-container {
+  width: auto;
+}
+.container-button-send {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 1rem 0;
+  width: auto;
 }

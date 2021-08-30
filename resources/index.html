@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
         <title>Electron v12 Example App Template</title>
+        <script type="text/javascript" src="./index.js" defer></script>
+        <link rel="stylesheet" href="./index.css">
     </head>
     <body>
+        <h1>Welcome to Electron</h1>
+        <h2>Fill the form below to transfer a file</h2>
 
-        <div>Counter: <span id="count"></span><div>
-        <button id="incrementCount">Increment the counter</button>
-        <button id="decrementCount">Decrement the counter</button>
-        <div>
-            <input id="input-ip">
-            <input id="input-port">
-            <button id="button-select-file">Choose a file</button>
-            <button id="button-send">Send</button>
+        <div class="controlls-container">
+            <div>
+                <input id="input-ip" placeholder="Ip address">
+                <input id="input-port" placeholder="Port">
+                <button id="button-select-file">Choose a file</button>
+            </div> 
+            <div class="container-button-send">
+                <button id="button-send">Send</button>
+            </div>
         </div>
+       
         <div>Server is listening on port: <span id="server-port"></span><div>
-        <script src="./index.js"></script>
-
+        <span id="transfer-information"></span>
     </body>
 </html>
