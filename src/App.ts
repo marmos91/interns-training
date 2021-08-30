@@ -84,20 +84,17 @@ export class App
     {
         this._server = net.createServer((socket) => 
         {
-            let size = 0;
             const write_stream = fs.createWriteStream(path.join(__dirname, '../downloaded'));
 
             socket.on('data', (data) => 
             {   
                 event.reply(FILE_TRANSFER_UPDATE, 'Transfer in progress.');
                 write_stream.write(data);
-                size += data.length;
             });
 
             socket.on('end', () =>
             {
                 write_stream.close();
-                console.log('Client disconnected, received: ', size);
                 event.reply(FILE_TRANSFER_UPDATE, 'Transfer received!');
             });
         });
