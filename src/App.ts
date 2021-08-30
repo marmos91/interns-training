@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as net from 'net';
 import * as fs from 'fs';
 import {SEND_FILE, SELECT_FILE, SET_FILE_PATH, START_SERVER, SET_SERVER_PORT, FILE_TRANSFER_UPDATE} from './events';
+import { exit } from 'process';
 
 
 export class App
@@ -20,11 +21,15 @@ export class App
                 webPreferences: {
                     preload: path.join(__dirname, './preload.js')
                 }
-            })
+            });
             
             win.loadFile('../resources/index.html');
         
             win.webContents.openDevTools();
+        }).catch((error) => 
+        {
+            console.log(error);
+            exit(1);
         });
 
         ipcMain.on(START_SERVER, (event, payload) => 
